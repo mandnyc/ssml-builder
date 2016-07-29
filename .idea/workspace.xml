@@ -78,6 +78,7 @@
         <option value="$PROJECT_DIR$/test/speech_test.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/index.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -249,7 +250,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1469758657692</updated>
-      <workItem from="1469758658849" duration="8135000" />
+      <workItem from="1469758658849" duration="8248000" />
     </task>
     <servers />
   </component>
@@ -262,7 +263,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8135000" />
+    <option name="totallyTimeSpent" value="8248000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2048" height="1225" extended-state="6" />
@@ -331,6 +332,14 @@
             <element signature="e#5131#5263#0" expanded="false" />
             <element signature="e#5275#5457#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="5" selection-start-line="0" selection-start-column="5" selection-end-line="0" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
