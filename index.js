@@ -125,6 +125,12 @@ Speech.prototype._present = function (value, msg) {
     }
 };
 
+Speech.prototype._invalidObject = function (object) {
+    if (value === null || value === undefined) {
+        throw msg;
+    }
+};
+
 /**
  * This validates that a duration is in the correct format and doesn't exceed the
  * maximum duration of 10 seconds or 10000 milliseconds.
@@ -152,7 +158,8 @@ Speech.prototype._validateDuration = function (duration) {
 };
 
 Speech.prototype.sayAs = function (options) {
-    this._present(options.word, "The word provided to Speech#spell(..) was null or undefined.");
+    this._present(options, "The object provided to Speech#sayAs(..) was null or undefined.");
+    this._present(options.word, "The word provided to Speech#sayAs(..) was null or undefined.");
     if (options.interpretParams) {
         if (options.format) {
             this._elements.push("<say-as interpret-as=\'" + options.interpretParams + "\'" + " format=\'" + options.format + "'>" + options.word + "</say-as>");
@@ -167,10 +174,13 @@ Speech.prototype.sayAs = function (options) {
 };
 
 Speech.prototype.typeOfWord = function (options) {
-    this._present(options.word, "The word provided to Speech#spell(..) was null or undefined.");
+    this._present(options, "The object provided to Speech#typeOfWord(..) was null or undefined.");
+    this._present(options.word, "The word provided to Speech#typeOfWord(..) was null or undefined.");
     if (options.role) {
         this._elements.push("<w role=\'" + options.role + "'>" + options.word + "</w>")
     }
 };
+
+// Speech.prototype.phoneme = function ()
 
 module.exports = Speech;
