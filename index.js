@@ -154,7 +154,7 @@ Speech.prototype._validateDuration = function (duration) {
 Speech.prototype.sayAs = function (options) {
     this._present(options.word, "The word provided to Speech#spell(..) was null or undefined.");
     if (options.interpretParams) {
-        this._elements.push("<say-as interpret-as=\'" + options.interpretParams + "'>" + word + "</say-as>")
+        this._elements.push("<say-as interpret-as=\'" + options.interpretParams + "'>" + options.word + "</say-as>");
         return this;
     } else {
         this._elements.push(options.word);

@@ -51,6 +51,63 @@ describe('Speech', function () {
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>mandy</say-as></speak>");
         });
 
+        it('should build a sayAs interpret as spell-out', function () {
+            speech.sayAs({
+                "word": "mandy",
+                "interpretParams": "spell-out"
+            });
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>mandy</say-as></speak>");
+        });
+
+        it('should build a sayAs interpret as cardinal number', function () {
+            speech.sayAs({
+                "word": "five",
+                "interpretParams": "number"
+            });
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='number'>five</say-as></speak>");
+        });
+
+        it('should build a sayAs interpret as ordinal number', function () {
+            speech.sayAs({
+                "word": "1",
+                "interpretParams": "ordinal"
+            });
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='ordinal'>1</say-as></speak>");
+        });
+
+        it('should build a sayAs interpret as digits', function () {
+            speech.sayAs({
+                "word": "123",
+                "interpretParams": "digits"
+            });
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='digits'>123</say-as></speak>");
+        });
+
+        it('should build a sayAs interpret as fraction', function () {
+            speech.sayAs({
+                "word": "2/9",
+                "interpretParams": "fraction"
+            });
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='fraction'>2/9</say-as></speak>");
+        });
+
+        it('should build a sayAs interpret as unit', function () {
+            speech.sayAs({
+                "word": "2N",
+                "interpretParams": "unit"
+            });
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='unit'>2N</say-as></speak>");
+        });
+
+        it('should build a sayAs interpret as unit', function () {
+            speech.sayAs({
+                "word": "2N",
+                "interpretParams": "unit"
+            });
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='unit'>2N</say-as></speak>");
+        });
+
+
     });
 
     describe('compound examples', function () {
