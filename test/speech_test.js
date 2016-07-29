@@ -51,6 +51,14 @@ describe('Speech', function () {
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>mandy</say-as></speak>");
         });
 
+    });
+
+    describe('sayAs', function () {
+
+        beforeEach(function () {
+            speech = new Speech();
+        });
+
         it('should build a sayAs interpret as spell-out', function () {
             speech.sayAs({
                 "word": "mandy",
@@ -98,15 +106,7 @@ describe('Speech', function () {
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='unit'>2N</say-as></speak>");
         });
-
-        it('should build a sayAs interpret as unit', function () {
-            speech.sayAs({
-                "word": "2N",
-                "interpretParams": "unit"
-            });
-            assert.equal(speech.ssml(), "<speak><say-as interpret-as='unit'>2N</say-as></speak>");
-        });
-
+        
 
     });
 
