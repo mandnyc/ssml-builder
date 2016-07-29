@@ -99,6 +99,14 @@ describe('Speech', function () {
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='fraction'>2/9</say-as></speak>");
         });
 
+        it('should build a sayAs interpret as fraction', function () {
+            speech.sayAs({
+                "word": "3+1/2",
+                "interpretParams": "fraction"
+            });
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='fraction'>3+1/2</say-as></speak>");
+        });
+
         it('should build a sayAs interpret as unit', function () {
             speech.sayAs({
                 "word": "2N",
@@ -173,9 +181,9 @@ describe('Speech', function () {
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='address' format='us-state'>CO</say-as></speak>");
         });
-
+        
     });
-
+    
     describe('date', function () {
 
         beforeEach(function () {
@@ -319,6 +327,46 @@ describe('Speech', function () {
                 "format": "hms12"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='time' format='hms12'>09:21:15</say-as></speak>");
+        });
+
+    });
+    
+    describe('type of word', function () {
+
+        beforeEach(function () {
+            speech = new Speech();
+        });
+
+        it('should build a w which has a role of ivona:VB', function () {
+            speech.typeOfWord({
+                "word": "read",
+                "role": "ivona:VB"
+            });
+            assert.equal(speech.ssml(), "<speak><w role='ivona:VB'>read</w></speak>");
+        });
+
+        it('should build a w which has a role of ivona:VBD', function () {
+            speech.typeOfWord({
+                "word": "read",
+                "role": "ivona:VBD"
+            });
+            assert.equal(speech.ssml(), "<speak><w role='ivona:VBD'>read</w></speak>");
+        });
+
+        it('should build a w which has a role of ivona:NN', function () {
+            speech.typeOfWord({
+                "word": "conduct",
+                "role": "ivona:NN"
+            });
+            assert.equal(speech.ssml(), "<speak><w role='ivona:NN'>conduct</w></speak>");
+        });
+
+        it('should build a w which has a role of ivona:SENSE_1', function () {
+            speech.typeOfWord({
+                "word": "bass",
+                "role": "ivona:SENSE_1"
+            });
+            assert.equal(speech.ssml(), "<speak><w role='ivona:SENSE_1'>bass</w></speak>");
         });
 
     });

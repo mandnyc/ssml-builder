@@ -154,8 +154,8 @@ Speech.prototype._validateDuration = function (duration) {
 Speech.prototype.sayAs = function (options) {
     this._present(options.word, "The word provided to Speech#spell(..) was null or undefined.");
     if (options.interpretParams) {
-        if(options.format){
-            this._elements.push("<say-as interpret-as=\'" + options.interpretParams + "\'" + " format=\'" + options.format + "'>"+ options.word + "</say-as>");
+        if (options.format) {
+            this._elements.push("<say-as interpret-as=\'" + options.interpretParams + "\'" + " format=\'" + options.format + "'>" + options.word + "</say-as>");
             return this;
         }
         this._elements.push("<say-as interpret-as=\'" + options.interpretParams + "'>" + options.word + "</say-as>");
@@ -163,6 +163,13 @@ Speech.prototype.sayAs = function (options) {
     } else {
         this._elements.push(options.word);
         return this;
+    }
+};
+
+Speech.prototype.typeOfWord = function (options) {
+    this._present(options.word, "The word provided to Speech#spell(..) was null or undefined.");
+    if (options.role) {
+        this._elements.push("<w role=\'" + options.role + "'>" + options.word + "</w>")
     }
 };
 
