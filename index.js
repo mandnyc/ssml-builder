@@ -158,7 +158,7 @@ Speech.prototype._validateDuration = function (duration) {
 };
 
 Speech.prototype.sayAs = function (options) {
-    this._present(options, "The object provided to Speech#sayAs(..) was null or undefined.");
+    this._present(options, "The object provided to Speech#sayAs(..) was invalid.");
     this._present(options.word, "The word provided to Speech#sayAs(..) was null or undefined.");
     if (options.interpretParams) {
         if (options.format) {
@@ -174,7 +174,7 @@ Speech.prototype.sayAs = function (options) {
 };
 
 Speech.prototype.typeOfWord = function (options) {
-    this._present(options, "The object provided to Speech#typeOfWord(..) was null or undefined.");
+    this._present(options, "The object provided to Speech#typeOfWord(..) was invalid.");
     this._present(options.word, "The word provided to Speech#typeOfWord(..) was null or undefined.");
     if (options.role) {
         this._elements.push("<w role=\'" + options.role + "'>" + options.word + "</w>")

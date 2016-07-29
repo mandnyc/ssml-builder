@@ -463,24 +463,24 @@ describe('Speech', function () {
         it('should expect an invalid object for sayAs', function () {
             assert.throws(function () {
                 speech.sayAs(null);
-            }, "The object provided to Speech#sayAs(..) was null or undefined.");
+            }, "The object provided to Speech#sayAs(..) was invalid.");
         });
 
         it('should expect a missing argument for sayAs', function () {
             assert.throws(function () {
-                speech.sayAs({"options.word": null});
+                speech.sayAs({word: null});
             }, "The word provided to Speech#sayAs(..) was null or undefined.");
         });
 
         it('should expect an invalid object for typeOfWord', function () {
             assert.throws(function () {
                 speech.typeOfWord(null);
-            }, "The object provided to Speech#typeOfWord(..) was null or undefined.");
+            }, "The object provided to Speech#typeOfWord(..) was invalid.");
         });
 
         it('should expect a missing argument for typeOfWord', function () {
             assert.throws(function () {
-                speech.typeOfWord({"options.word": null});
+                speech.typeOfWord({word: null});
             }, "The word provided to Speech#typeOfWord(..) was null or undefined.");
         });
 
