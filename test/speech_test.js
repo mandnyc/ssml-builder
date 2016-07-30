@@ -133,6 +133,9 @@ describe('Speech', function () {
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='telephone'>*53#</say-as></speak>");
         });
 
+        /**
+         * Alexa does not support format 39
+         **/
         it('should build a sayAs interpret as telephone and format 39', function () {
             speech.sayAs({
                 "word": "+39(011)777-7777",
@@ -142,6 +145,9 @@ describe('Speech', function () {
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='telephone' format='39'>+39(011)777-7777</say-as></speak>");
         });
 
+        /**
+         * Alexa does not support format 39
+         **/
         it('should build a sayAs interpret as telephone and format 39', function () {
             speech.sayAs({
                 "word": "+1-800-EXAMPLE",
@@ -150,7 +156,8 @@ describe('Speech', function () {
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='telephone' format='39'>+1-800-EXAMPLE</say-as></speak>");
         });
-
+        
+        
         it('should build a sayAs interpret as address', function () {
             speech.sayAs({
                 "word": "320 W Mt Willson Ct",
@@ -175,6 +182,9 @@ describe('Speech', function () {
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='address'>Ft Worth, TX 12345</say-as></speak>");
         });
 
+        /**
+         * Alexa does not support format us-state
+         **/
         it('should build a sayAs interpret as address and format us-state', function () {
             speech.sayAs({
                 "word": "CO",
@@ -228,11 +238,11 @@ describe('Speech', function () {
 
         it('should build a sayAs interpret as date and format ymd', function () {
             speech.sayAs({
-                "word": "01/02/2007",
+                "word": "2007/01/02",
                 "interpretParams": "date",
                 "format": "ymd"
             });
-            assert.equal(speech.ssml(), "<speak><say-as interpret-as='date' format='ymd'>01/02/2007</say-as></speak>");
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='date' format='ymd'>2007/01/02</say-as></speak>");
         });
 
         it('should build a sayAs interpret as date and format md', function () {
@@ -305,23 +315,21 @@ describe('Speech', function () {
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='time'>2'10\"</say-as></speak>");
         });
 
-        it('should build a sayAs interpret as time', function () {
-            speech.sayAs({
-                "word": "19:21:30.1",
-                "interpretParams": "time"
-            });
-            assert.equal(speech.ssml(), "<speak><say-as interpret-as='time'>19:21:30.1</say-as></speak>");
-        });
-
+        /**
+         * Alexa device does not support 24 hours format
+         */
         it('should build a sayAs interpret as time and format hms24', function () {
             speech.sayAs({
-                "word": "19:21:30.1",
+                "word": "19:21:30",
                 "interpretParams": "time",
                 "format": "hms24"
             });
-            assert.equal(speech.ssml(), "<speak><say-as interpret-as='time' format='hms24'>19:21:30.1</say-as></speak>");
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='time' format='hms24'>19:21:30</say-as></speak>");
         });
 
+        /**
+         * Alexa device does not support 12 hours format
+         */
         it('should build a sayAs interpret as time and format hms12', function () {
             speech.sayAs({
                 "word": "09:21:15",
