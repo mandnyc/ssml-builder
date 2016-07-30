@@ -161,8 +161,8 @@ describe('Speech', function () {
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='telephone' format='39'>+1-800-EXAMPLE</say-as></speak>");
         });
-        
-        
+
+
         it('should build a sayAs interpret as address', function () {
             speech.sayAs({
                 "word": "320 W Mt Willson Ct",
@@ -198,9 +198,9 @@ describe('Speech', function () {
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='address' format='us-state'>CO</say-as></speak>");
         });
-        
+
     });
-    
+
     describe('date', function () {
 
         beforeEach(function () {
@@ -345,7 +345,7 @@ describe('Speech', function () {
         });
 
     });
-    
+
     describe('type of word', function () {
 
         beforeEach(function () {
@@ -393,17 +393,17 @@ describe('Speech', function () {
         });
 
         it('should build a phoneme', function () {
-            speech.phoneme("ipa", "pɪˈkɑːn" , "pecan");
+            speech.phoneme("ipa", "pɪˈkɑːn", "pecan");
             assert.equal(speech.ssml(), "<speak><phoneme alphabet='ipa' ph='pɪˈkɑːn'>pecan</phoneme></speak>");
         });
 
         it('should build a phoneme', function () {
-            speech.phoneme("ipa", "pi.kæn" , "pecan");
+            speech.phoneme("ipa", "pi.kæn", "pecan");
             assert.equal(speech.ssml(), "<speak><phoneme alphabet='ipa' ph='pi.kæn'>pecan</phoneme></speak>");
         });
 
         it('should build a phoneme', function () {
-            speech.phoneme("ipa", "pɪ'kɑːn" , "pecan");
+            speech.phoneme("ipa", "pɪ'kɑːn", "pecan");
             assert.equal(speech.ssml(), "<speak><phoneme alphabet='ipa' ph='pɪ&apos;kɑːn'>pecan</phoneme></speak>");
         });
     });
@@ -525,7 +525,7 @@ describe('Speech', function () {
             var word = "pecan";
             var ph = "pɪˈkɑːn";
             assert.throws(function () {
-                speech.phoneme( null, ph, word);
+                speech.phoneme(null, ph, word);
             }, "The alphabet provided to Speech#phoneme(..) was null or undefined.");
         });
 
@@ -533,7 +533,7 @@ describe('Speech', function () {
             var word = "pecan";
             var alphabet = "ipa";
             assert.throws(function () {
-                speech.phoneme(alphabet , null, word);
+                speech.phoneme(alphabet, null, word);
             }, "The ph provided to Speech#phoneme(..) was null or undefined.");
         });
 
@@ -541,9 +541,23 @@ describe('Speech', function () {
             var alphabet = "ipa";
             var ph = "pɪˈkɑːn";
             assert.throws(function () {
-                speech.phoneme( alphabet, ph, null);
+                speech.phoneme(alphabet, ph, null);
             }, "The word provided to Speech#phoneme(..) was null or undefined.");
         });
+
+        it('should expect a missing word in spellSlowly', function () {
+            var delay = "500ms";
+            assert.throws(function () {
+                speech.spellSlowly(null, delay);
+            }, "The word provided to Speech#spellSlowly(..) was null or undefined.");
+        });
+
+        it('should expect a missing delay in spellSlowly', function () {
+            var word = "mandy";
+            assert.throws(function () {
+                speech.spellSlowly(word, null)
+            }, "The duration provided to Speech#pause(..) was null or undefined.");
+        })
 
     });
 

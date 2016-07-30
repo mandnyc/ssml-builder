@@ -86,7 +86,7 @@ Speech.prototype.spell = function (word) {
 };
 
 Speech.prototype.spellSlowly = function (word, delay) {
-    this._present(word, "The word provided to Speech#spell(..) was null or undefined.");
+    this._present(word, "The word provided to Speech#spellSlowly(..) was null or undefined.");
     for (var i = 0; i < word.length; i++) {
         this._elements.push("<say-as interpret-as='spell-out'>" + word.charAt(i) + "</say-as>");
         this.pause(delay);
