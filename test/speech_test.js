@@ -1,3 +1,5 @@
+'use strict';
+
 var assert = require('chai').assert;
 var Speech = require('../index');
 
@@ -371,6 +373,28 @@ describe('Speech', function () {
 
     });
 
+    describe('phoneme', function () {
+
+        beforeEach(function () {
+            speech = new Speech();
+        });
+
+        it('should build a phoneme', function () {
+            speech.phoneme("ipa", "pɪˈkɑːn" , "pecan");
+            assert.equal(speech.ssml(), "<speak><phoneme alphabet='ipa' ph='pɪˈkɑːn'>pecan</phoneme></speak>");
+        });
+
+        it('should build a phoneme', function () {
+            speech.phoneme("ipa", "pi.kæn" , "pecan");
+            assert.equal(speech.ssml(), "<speak><phoneme alphabet='ipa' ph='pi.kæn'>pecan</phoneme></speak>");
+        });
+
+        it('should build a phoneme', function () {
+            speech.phoneme("ipa", "pɪ'kɑːn" , "pecan");
+            assert.equal(speech.ssml(), "<speak><phoneme alphabet='ipa' ph='pɪ&apos;kɑːn'>pecan</phoneme></speak>");
+        });
+    });
+
     describe('compound examples', function () {
 
         beforeEach(function () {
@@ -484,6 +508,29 @@ describe('Speech', function () {
             }, "The word provided to Speech#typeOfWord(..) was null or undefined.");
         });
 
+        it('should expect a missing alphabet in phoneme', function () {
+            var word = "pecan";
+            var ph = "pɪˈkɑːn";
+            assert.throws(function () {
+                speech.phoneme( null, ph, word);
+            }, "The alphabet provided to Speech#phoneme(..) was null or undefined.");
+        });
+
+        it('should expect a missing ph in phoneme', function () {
+            var word = "pecan";
+            var alphabet = "ipa";
+            assert.throws(function () {
+                speech.phoneme(alphabet , null, word);
+            }, "The ph provided to Speech#phoneme(..) was null or undefined.");
+        });
+
+        it('should expect a missing word in phoneme', function () {
+            var alphabet = "ipa";
+            var ph = "pɪˈkɑːn";
+            assert.throws(function () {
+                speech.phoneme( alphabet, ph, null);
+            }, "The word provided to Speech#phoneme(..) was null or undefined.");
+        });
 
     });
 

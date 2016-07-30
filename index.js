@@ -125,12 +125,6 @@ Speech.prototype._present = function (value, msg) {
     }
 };
 
-Speech.prototype._invalidObject = function (object) {
-    if (value === null || value === undefined) {
-        throw msg;
-    }
-};
-
 /**
  * This validates that a duration is in the correct format and doesn't exceed the
  * maximum duration of 10 seconds or 10000 milliseconds.
@@ -181,6 +175,14 @@ Speech.prototype.typeOfWord = function (options) {
     }
 };
 
-// Speech.prototype.phoneme = function ()
+Speech.prototype.phoneme = function (alphabet, ph, word) {
+    this._present(alphabet, "The alphabet provided to Speech#phoneme(..) was null or undefined.");
+    this._present(ph, "The ph provided to Speech#phoneme(..) was null or undefined.");
+    this._present(word, "The word provided to Speech#phoneme(..) was null or undefined.");
+    if (ph.indexOf("'") !== -1) {
+        ph = ph.replace(/'/g, '&apos;')
+    }
+    this._elements.push("<phoneme alphabet=\'" + alphabet + "\'" + " ph=\'" + ph + "'>" + word + "</phoneme>");
+};
 
 module.exports = Speech;
