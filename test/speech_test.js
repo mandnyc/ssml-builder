@@ -53,6 +53,11 @@ describe('Speech', function () {
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>mandy</say-as></speak>");
         });
 
+        it('should build a spell slowly tag', function () {
+            speech.spellSlowly("mandy", "500ms");
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>m</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>a</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>n</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>d</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>y</say-as> <break time='500ms'/></speak>");
+        });
+
     });
 
     describe('sayAs', function () {
@@ -316,7 +321,7 @@ describe('Speech', function () {
         });
 
         /**
-         * Alexa device does not support 24 hours format
+         * Alexa does not support 24 hours format
          */
         it('should build a sayAs interpret as time and format hms24', function () {
             speech.sayAs({
@@ -328,7 +333,7 @@ describe('Speech', function () {
         });
 
         /**
-         * Alexa device does not support 12 hours format
+         * Alexa does not support 12 hours format
          */
         it('should build a sayAs interpret as time and format hms12', function () {
             speech.sayAs({
