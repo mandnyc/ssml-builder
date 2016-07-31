@@ -8,12 +8,10 @@
  *  var speech = new Speech();
  *  speech.say("Let's begin your lesson");
  *  speech.pause("1s");
- *  speech.say("How do you say " + word);
  *
- *  response.tell(speech.toObject(), ...);
  * </code>
- * TODO: Implement a method for <phoneme/>, <w/>,
- * TODO: interpret-as="cardinal|ordinal|digits|fraction|unit|date|time|telephone|address" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y"
+ * Implement a method for <phoneme/>, <w/>, <say-as> All done
+ * interpret-as="cardinal|ordinal|digits|fraction|unit|date|time|telephone|address" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y" All done
  * @constructor
  */
 function Speech() {
@@ -56,10 +54,7 @@ Speech.prototype.sentence = function (saying) {
 };
 
 /**
- * Creates and inserts a break tag. This method will also validate the break time conforms to the restrictions
- * to Amazon Alexa.
- *
- * TODO: Accept 'strength'
+ * Creates and inserts a break tag. This method will also validate the break time conforms to the restrictions to Amazon Alexa.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#break
  * @param duration the duration represented by a number + either 's' for second or 'ms' for milliseconds.
  * @returns {Speech}
@@ -71,20 +66,36 @@ Speech.prototype.pause = function (duration) {
     return this;
 };
 
-// <audio src="{url}"/>
+/**
+ * Creates and inserts an audio tag.
+ * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#audio
+ * @param url
+ * @returns {Speech}
+ */
 Speech.prototype.audio = function (url) {
     this._present(url, "The url provided to Speech#audio(..) was null or undefined.");
     this._elements.push("<audio src='" + url + "'/>");
     return this;
 };
 
-// <say-as interpret-as="spell-out">{word}</say-as>
+/**
+ * Creates and inserts a say-as tag.
+ * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
+ * @param word word or text to insert
+ * @returns {Speech}
+ */
 Speech.prototype.spell = function (word) {
     this._present(word, "The word provided to Speech#spell(..) was null or undefined.");
     this._elements.push("<say-as interpret-as='spell-out'>" + word + "</say-as>");
     return this;
 };
 
+/**
+ * Creates and inserts a say-as tag.
+ * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
+ * @param word word or text to insert , delay the delay represented by a number + either 's' for second or 'ms' for milliseconds.
+ * @returns {Speech}
+ */
 Speech.prototype.spellSlowly = function (word, delay) {
     this._present(word, "The word provided to Speech#spellSlowly(..) was null or undefined.");
     for (var i = 0; i < word.length; i++) {
@@ -151,6 +162,15 @@ Speech.prototype._validateDuration = function (duration) {
     }
 };
 
+/**
+* Creates and inserts a say-as tag that has multiple attributes such as interpret-as and format
+* interpret-as="cardinal|ordinal|digits|fraction|unit|date|time|telephone|address" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y"
+* 
+* see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
+* @param options an object that has three properties: word, interpretParams and format
+* word being the text to insert, interpretParams represents the attribute interpret-as  and format represents to attribute format
+* @returns {Speech}
+*/
 Speech.prototype.sayAs = function (options) {
     this._present(options, "The object provided to Speech#sayAs(..) was invalid.");
     this._present(options.word, "The word provided to Speech#sayAs(..) was null or undefined.");
@@ -167,14 +187,30 @@ Speech.prototype.sayAs = function (options) {
     }
 };
 
-Speech.prototype.typeOfWord = function (options) {
-    this._present(options, "The object provided to Speech#typeOfWord(..) was invalid.");
-    this._present(options.word, "The word provided to Speech#typeOfWord(..) was null or undefined.");
+/**
+ * Creates and inserts a w tag that customizes the pronunciation of words by specifying the word’s part of speech
+ * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#w
+ * @param options an object that has two properties: word and role
+ * word being the text to insert and role represents the part of speech
+ * @returns {Speech}
+ */
+Speech.prototype.partOfSpeech = function (options) {
+    this._present(options, "The object provided to Speech#partOfSpeech(..) was invalid.");
+    this._present(options.word, "The word provided to Speech#partOfSpeech(..) was null or undefined.");
     if (options.role) {
         this._elements.push("<w role=\'" + options.role + "'>" + options.word + "</w>")
     }
 };
 
+/**
+ * Creates and inserts a phoneme tag. This method will also validate if the params pass in is null or defined
+ * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#phoneme
+ * @param alphabet, ph, word
+ * alphabet i.e "ipa"
+ * ph i.e "pɪˈkɑːn"
+ * word being the text to insert
+ * @returns {Speech}
+ */
 Speech.prototype.phoneme = function (alphabet, ph, word) {
     this._present(alphabet, "The alphabet provided to Speech#phoneme(..) was null or undefined.");
     this._present(ph, "The ph provided to Speech#phoneme(..) was null or undefined.");

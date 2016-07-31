@@ -161,8 +161,7 @@ describe('Speech', function () {
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='telephone' format='39'>+1-800-EXAMPLE</say-as></speak>");
         });
-
-
+        
         it('should build a sayAs interpret as address', function () {
             speech.sayAs({
                 "word": "320 W Mt Willson Ct",
@@ -346,14 +345,14 @@ describe('Speech', function () {
 
     });
 
-    describe('type of word', function () {
+    describe('part of speech', function () {
 
         beforeEach(function () {
             speech = new Speech();
         });
 
         it('should build a w which has a role of ivona:VB', function () {
-            speech.typeOfWord({
+            speech.partOfSpeech({
                 "word": "read",
                 "role": "ivona:VB"
             });
@@ -361,7 +360,7 @@ describe('Speech', function () {
         });
 
         it('should build a w which has a role of ivona:VBD', function () {
-            speech.typeOfWord({
+            speech.partOfSpeech({
                 "word": "read",
                 "role": "ivona:VBD"
             });
@@ -369,7 +368,7 @@ describe('Speech', function () {
         });
 
         it('should build a w which has a role of ivona:NN', function () {
-            speech.typeOfWord({
+            speech.partOfSpeech({
                 "word": "conduct",
                 "role": "ivona:NN"
             });
@@ -377,7 +376,7 @@ describe('Speech', function () {
         });
 
         it('should build a w which has a role of ivona:SENSE_1', function () {
-            speech.typeOfWord({
+            speech.partOfSpeech({
                 "word": "bass",
                 "role": "ivona:SENSE_1"
             });
@@ -509,16 +508,16 @@ describe('Speech', function () {
             }, "The word provided to Speech#sayAs(..) was null or undefined.");
         });
 
-        it('should expect an invalid object for typeOfWord', function () {
+        it('should expect an invalid object for partOfSpeech', function () {
             assert.throws(function () {
-                speech.typeOfWord(null);
-            }, "The object provided to Speech#typeOfWord(..) was invalid.");
+                speech.partOfSpeech(null);
+            }, "The object provided to Speech#partOfSpeech(..) was invalid.");
         });
 
-        it('should expect a missing argument for typeOfWord', function () {
+        it('should expect a missing argument for partOfSpeech', function () {
             assert.throws(function () {
-                speech.typeOfWord({word: null});
-            }, "The word provided to Speech#typeOfWord(..) was null or undefined.");
+                speech.partOfSpeech({word: null});
+            }, "The word provided to Speech#partOfSpeech(..) was null or undefined.");
         });
 
         it('should expect a missing alphabet in phoneme', function () {
