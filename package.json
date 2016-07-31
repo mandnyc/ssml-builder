@@ -9,6 +9,11 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test"
   },
+  "keywords": [
+    "ssml",
+    "alexa",
+    "skill"
+  ],
   "author": "Mandy Chan",
   "license": "Apache-2.0",
   "devDependencies": {
