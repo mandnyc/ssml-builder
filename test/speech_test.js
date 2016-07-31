@@ -69,7 +69,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as spell-out', function () {
             speech.sayAs({
                 "word": "mandy",
-                "interpretParams": "spell-out"
+                "interpret": "spell-out"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>mandy</say-as></speak>");
         });
@@ -77,7 +77,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as cardinal number', function () {
             speech.sayAs({
                 "word": "five",
-                "interpretParams": "number"
+                "interpret": "number"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='number'>five</say-as></speak>");
         });
@@ -85,7 +85,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as ordinal number', function () {
             speech.sayAs({
                 "word": "1",
-                "interpretParams": "ordinal"
+                "interpret": "ordinal"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='ordinal'>1</say-as></speak>");
         });
@@ -93,7 +93,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as digits', function () {
             speech.sayAs({
                 "word": "123",
-                "interpretParams": "digits"
+                "interpret": "digits"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='digits'>123</say-as></speak>");
         });
@@ -101,7 +101,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as fraction', function () {
             speech.sayAs({
                 "word": "2/9",
-                "interpretParams": "fraction"
+                "interpret": "fraction"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='fraction'>2/9</say-as></speak>");
         });
@@ -109,7 +109,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as fraction', function () {
             speech.sayAs({
                 "word": "3+1/2",
-                "interpretParams": "fraction"
+                "interpret": "fraction"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='fraction'>3+1/2</say-as></speak>");
         });
@@ -117,7 +117,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as unit', function () {
             speech.sayAs({
                 "word": "2N",
-                "interpretParams": "unit"
+                "interpret": "unit"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='unit'>2N</say-as></speak>");
         });
@@ -125,7 +125,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as telephone with extension', function () {
             speech.sayAs({
                 "word": "+1-800-555-234 ex. 23",
-                "interpretParams": "telephone"
+                "interpret": "telephone"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='telephone'>+1-800-555-234 ex. 23</say-as></speak>");
         });
@@ -133,7 +133,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as telephone', function () {
             speech.sayAs({
                 "word": "*53#",
-                "interpretParams": "telephone"
+                "interpret": "telephone"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='telephone'>*53#</say-as></speak>");
         });
@@ -144,7 +144,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as telephone and format 39', function () {
             speech.sayAs({
                 "word": "+39(011)777-7777",
-                "interpretParams": "telephone",
+                "interpret": "telephone",
                 "format": "39"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='telephone' format='39'>+39(011)777-7777</say-as></speak>");
@@ -156,7 +156,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as telephone and format 39', function () {
             speech.sayAs({
                 "word": "+1-800-EXAMPLE",
-                "interpretParams": "telephone",
+                "interpret": "telephone",
                 "format": "39"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='telephone' format='39'>+1-800-EXAMPLE</say-as></speak>");
@@ -165,7 +165,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as address', function () {
             speech.sayAs({
                 "word": "320 W Mt Willson Ct",
-                "interpretParams": "address"
+                "interpret": "address"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='address'>320 W Mt Willson Ct</say-as></speak>");
         });
@@ -173,7 +173,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as address', function () {
             speech.sayAs({
                 "word": "rm. 103",
-                "interpretParams": "address"
+                "interpret": "address"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='address'>rm. 103</say-as></speak>");
         });
@@ -181,7 +181,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as address', function () {
             speech.sayAs({
                 "word": "Ft Worth, TX 12345",
-                "interpretParams": "address"
+                "interpret": "address"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='address'>Ft Worth, TX 12345</say-as></speak>");
         });
@@ -192,7 +192,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as address and format us-state', function () {
             speech.sayAs({
                 "word": "CO",
-                "interpretParams": "address",
+                "interpret": "address",
                 "format": "us-state"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='address' format='us-state'>CO</say-as></speak>");
@@ -209,7 +209,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as date only yyyymmdd', function () {
             speech.sayAs({
                 "word": "20070102",
-                "interpretParams": "date"
+                "interpret": "date"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='date'>20070102</say-as></speak>");
         });
@@ -217,7 +217,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as date only mmdd', function () {
             speech.sayAs({
                 "word": "????0102",
-                "interpretParams": "date"
+                "interpret": "date"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='date'>????0102</say-as></speak>");
         });
@@ -225,7 +225,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as date and format mdy', function () {
             speech.sayAs({
                 "word": "01/02/2007",
-                "interpretParams": "date",
+                "interpret": "date",
                 "format": "mdy"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='date' format='mdy'>01/02/2007</say-as></speak>");
@@ -234,7 +234,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as date and format dmy', function () {
             speech.sayAs({
                 "word": "01/02/2007",
-                "interpretParams": "date",
+                "interpret": "date",
                 "format": "dmy"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='date' format='dmy'>01/02/2007</say-as></speak>");
@@ -243,7 +243,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as date and format ymd', function () {
             speech.sayAs({
                 "word": "2007/01/02",
-                "interpretParams": "date",
+                "interpret": "date",
                 "format": "ymd"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='date' format='ymd'>2007/01/02</say-as></speak>");
@@ -252,7 +252,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as date and format md', function () {
             speech.sayAs({
                 "word": "01/02",
-                "interpretParams": "date",
+                "interpret": "date",
                 "format": "md"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='date' format='md'>01/02</say-as></speak>");
@@ -261,7 +261,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as date and format dm', function () {
             speech.sayAs({
                 "word": "01/02",
-                "interpretParams": "date",
+                "interpret": "date",
                 "format": "dm"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='date' format='dm'>01/02</say-as></speak>");
@@ -270,7 +270,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as date and format ym', function () {
             speech.sayAs({
                 "word": "2007/01",
-                "interpretParams": "date",
+                "interpret": "date",
                 "format": "ym"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='date' format='ym'>2007/01</say-as></speak>");
@@ -279,7 +279,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as date and format my', function () {
             speech.sayAs({
                 "word": "01/2007",
-                "interpretParams": "date",
+                "interpret": "date",
                 "format": "my"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='date' format='my'>01/2007</say-as></speak>");
@@ -288,7 +288,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as date and format d', function () {
             speech.sayAs({
                 "word": "1",
-                "interpretParams": "date",
+                "interpret": "date",
                 "format": "d"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='date' format='d'>1</say-as></speak>");
@@ -297,7 +297,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as date and format y', function () {
             speech.sayAs({
                 "word": "2007",
-                "interpretParams": "date",
+                "interpret": "date",
                 "format": "y"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='date' format='y'>2007</say-as></speak>");
@@ -314,7 +314,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as time', function () {
             speech.sayAs({
                 "word": "2'10\"",
-                "interpretParams": "time"
+                "interpret": "time"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='time'>2'10\"</say-as></speak>");
         });
@@ -325,7 +325,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as time and format hms24', function () {
             speech.sayAs({
                 "word": "19:21:30",
-                "interpretParams": "time",
+                "interpret": "time",
                 "format": "hms24"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='time' format='hms24'>19:21:30</say-as></speak>");
@@ -337,7 +337,7 @@ describe('Speech', function () {
         it('should build a sayAs interpret as time and format hms12', function () {
             speech.sayAs({
                 "word": "09:21:15",
-                "interpretParams": "time",
+                "interpret": "time",
                 "format": "hms12"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='time' format='hms12'>09:21:15</say-as></speak>");

@@ -167,19 +167,19 @@ Speech.prototype._validateDuration = function (duration) {
 * interpret-as="cardinal|ordinal|digits|fraction|unit|date|time|telephone|address" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y"
 * 
 * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
-* @param options an object that has three properties: word, interpretParams and format
-* word being the text to insert, interpretParams represents the attribute interpret-as  and format represents to attribute format
+* @param options an object that has three properties: word, interpret and format
+* word being the text to insert, interpret represents the attribute interpret-as and format represents the attribute format
 * @returns {Speech}
 */
 Speech.prototype.sayAs = function (options) {
     this._present(options, "The object provided to Speech#sayAs(..) was invalid.");
     this._present(options.word, "The word provided to Speech#sayAs(..) was null or undefined.");
-    if (options.interpretParams) {
+    if (options.interpret) {
         if (options.format) {
-            this._elements.push("<say-as interpret-as=\'" + options.interpretParams + "\'" + " format=\'" + options.format + "'>" + options.word + "</say-as>");
+            this._elements.push("<say-as interpret-as=\'" + options.interpret + "\'" + " format=\'" + options.format + "'>" + options.word + "</say-as>");
             return this;
         }
-        this._elements.push("<say-as interpret-as=\'" + options.interpretParams + "'>" + options.word + "</say-as>");
+        this._elements.push("<say-as interpret-as=\'" + options.interpret + "'>" + options.word + "</say-as>");
         return this;
     } else {
         this._elements.push(options.word);
@@ -203,7 +203,7 @@ Speech.prototype.partOfSpeech = function (options) {
 };
 
 /**
- * Creates and inserts a phoneme tag. This method will also validate if the params pass in is null or defined
+ * Creates and inserts a phoneme tag.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#phoneme
  * @param alphabet, ph, word
  * alphabet i.e "ipa"
