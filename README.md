@@ -37,6 +37,7 @@ npm install ssml-builder --save
 
 ## Code Example for the new Alexa SDK
 #### see link to the new Alexa SDK https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs
+
 ```javascript
 var Speech = require('ssml-builder');
 
@@ -44,6 +45,12 @@ var speech = new Speech();
 speech.say('Hello');
 speech.pause('1s');
 speech.say('fellow Alexa developers');
+speech.pause('500ms');
+speech.say('Testing phone numbers');
+speech.sayAs({
+              word: "+1-377-777-1888",
+              interpret: "telephone"
+            });
 var speechOutput = speech.ssml(true);
 this.emit(':tell', speechOutput);
 ```
@@ -51,7 +58,7 @@ this.emit(':tell', speechOutput);
 ## The above code will produce the following SSML
 > Note: In this example, the SSML is not surrounded by &lt;speak/&gt; because we passed 'true' into the ssml(boolean) method. This is intentional to work with the new SDK due to their current design.
 ```xml
-  Hello <break time='1s'/> fellow Alexa developers
+  'Hello <break time='1s'/> fellow Alexa developers <break time='500ms'/> Testing phone numbers <say-as interpret-as='telephone'>+1-377-777-1888</say-as>'
 ```
 
 ## Code Example for the old Alexa SDK
