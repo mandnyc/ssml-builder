@@ -28,7 +28,7 @@ npm install ssml-builder --save
       * time
       * telephone
       * address
-      * w
+  * w
          * ivona:VB: Interpret the word as a verb (present simple).
          * ivona:VBD: Interpret the word as a past participle.
          * ivona:NN: Interpret the word as a noun.
