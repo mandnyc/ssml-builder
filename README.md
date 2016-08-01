@@ -32,11 +32,11 @@ npm install ssml-builder --save
          * ivona:VB: Interpret the word as a verb (present simple).
          * ivona:VBD: Interpret the word as a past participle.
          * ivona:NN: Interpret the word as a noun.
-         * ivona:SENSE_1 For more information, see [Amazon Documentation here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#w)  
+         * ivona:SENSE_1: for more information, see [Amazon Documentation here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#w)  
   
 
 ## Code Example for the new Alexa SDK
-#### see link https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs
+#### see link to the new Alexa SDK https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs
 ```javascript
 var Speech = require('ssml-builder');
 
