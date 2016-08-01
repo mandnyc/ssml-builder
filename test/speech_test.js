@@ -560,4 +560,22 @@ describe('Speech', function () {
 
     });
 
+
+    describe('ssml', function () {
+
+        beforeEach(function () {
+            speech = new Speech();
+        });
+
+        it('ssml has speak tag', function () {
+            speech.say("Hello");
+            assert.equal(speech.ssml(true), "Hello") ;
+        });
+
+        it('ssml has no speak tag', function () {
+            speech.say("Hello");
+            assert.equal(speech.ssml(false), "<speak>Hello</speak>") ;
+        });
+    });
+
 });
