@@ -1,8 +1,10 @@
 # ssml-builder
-
 This package creates Speech Synthesis Markup Language (SSML) using the builder pattern.
-It is fully unit-tested to ensure the best quality. 
-It works with both the new and old Alexa SDKs. See the code examples below.
+
+
+Tired of creating SSML using string concatenation or worring about special characters like '&amp;' ? This project aims to eliminate all these headaches by providing a clean and easy to use API. In addition to making SSML easier to create, this library is fully unit-tested to ensure things work as expected.
+
+Whether you're building an Amazon Alexa Skill using the older version of the JavaScript SDK or the new one, this library is compatible. See the examples in the lower portion of this documentation.
 
 ## Installation
 ```sh
@@ -37,6 +39,7 @@ npm install ssml-builder --save
 
 ## Code Example for the new Alexa SDK
 #### see link to the new Alexa SDK https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs
+
 ```javascript
 var Speech = require('ssml-builder');
 
@@ -44,6 +47,12 @@ var speech = new Speech();
 speech.say('Hello');
 speech.pause('1s');
 speech.say('fellow Alexa developers');
+speech.pause('500ms');
+speech.say('Testing phone numbers');
+speech.sayAs({
+              word: "+1-377-777-1888",
+              interpret: "telephone"
+            });
 var speechOutput = speech.ssml(true);
 this.emit(':tell', speechOutput);
 ```
@@ -51,7 +60,7 @@ this.emit(':tell', speechOutput);
 ## The above code will produce the following SSML
 > Note: In this example, the SSML is not surrounded by &lt;speak/&gt; because we passed 'true' into the ssml(boolean) method. This is intentional to work with the new SDK due to their current design.
 ```xml
-  Hello <break time='1s'/> fellow Alexa developers
+  'Hello <break time='1s'/> fellow Alexa developers <break time='500ms'/> Testing phone numbers <say-as interpret-as='telephone'>+1-377-777-1888</say-as>'
 ```
 
 ## Code Example for the old Alexa SDK
