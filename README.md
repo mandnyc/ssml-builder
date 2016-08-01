@@ -2,7 +2,7 @@
 This package creates Speech Synthesis Markup Language (SSML) using the builder pattern.
 
 
-Tired of creating SSML using string concatenation or worring about special characters like '&amp;' ? This project aims to eliminate all these headaches by providing a clean and easy way to use this API. In addition to making SSML easier to create, this library is fully unit-tested to ensure things work as expected.
+Tired of creating SSML using string concatenation or worring about special characters like '&amp;' ? This project aims to eliminate all these headaches by providing a clean and easy to use API. In addition to making SSML easier to create, this library is fully unit-tested to ensure things work as expected.
 
 Whether you're building an Amazon Alexa Skill using the older version of the JavaScript SDK or the new one, this library is compatible. See the examples in the lower portion of this documentation.
 
