@@ -25,7 +25,7 @@ function Speech() {
  */
 Speech.prototype.say = function (saying) {
     this._present(saying, "The saying provided to Speech#saying(..) was null or undefined.");
-    this._elements.push(saying);
+    this._elements.push(this._escape(saying));
     return this;
 };
 
@@ -37,7 +37,7 @@ Speech.prototype.say = function (saying) {
  */
 Speech.prototype.paragraph = function (paragraph) {
     this._present(paragraph, "The paragraph provided to Speech#paragraph(..) was null or undefined.");
-    this._elements.push("<p>" + paragraph + "</p>");
+    this._elements.push("<p>" + this._escape(paragraph) + "</p>");
     return this;
 };
 
@@ -49,7 +49,7 @@ Speech.prototype.paragraph = function (paragraph) {
  */
 Speech.prototype.sentence = function (saying) {
     this._present(saying, "The sentence provided to Speech#sentence(..) was null or undefined.");
-    this._elements.push("<s>" + saying + "</s>");
+    this._elements.push("<s>" + this._escape(saying) + "</s>");
     return this;
 };
 
@@ -86,7 +86,7 @@ Speech.prototype.audio = function (url) {
  */
 Speech.prototype.spell = function (word) {
     this._present(word, "The word provided to Speech#spell(..) was null or undefined.");
-    this._elements.push("<say-as interpret-as='spell-out'>" + word + "</say-as>");
+    this._elements.push("<say-as interpret-as='spell-out'>" + this._escape(word) + "</say-as>");
     return this;
 };
 
@@ -99,7 +99,7 @@ Speech.prototype.spell = function (word) {
 Speech.prototype.spellSlowly = function (word, delay) {
     this._present(word, "The word provided to Speech#spellSlowly(..) was null or undefined.");
     for (var i = 0; i < word.length; i++) {
-        this._elements.push("<say-as interpret-as='spell-out'>" + word.charAt(i) + "</say-as>");
+        this._elements.push("<say-as interpret-as='spell-out'>" + this._escape(word.charAt(i)) + "</say-as>");
         this.pause(delay);
     }
     return this;
@@ -121,9 +121,9 @@ Speech.prototype.toObject = function () {
  * @returns {string} An XML string.
  */
 Speech.prototype.ssml = function (excludeSpeakTag) {
-    if(excludeSpeakTag){
+    if (excludeSpeakTag) {
         return this._elements.join(" ");
-    } 
+    }
     return "<speak>" + this._elements.join(" ") + "</speak>";
 };
 
@@ -166,14 +166,14 @@ Speech.prototype._validateDuration = function (duration) {
 };
 
 /**
-* Creates and inserts a say-as tag that has multiple attributes such as interpret-as and format
-* interpret-as="cardinal|ordinal|digits|fraction|unit|date|time|telephone|address" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y"
-* 
-* see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
-* @param options an object that has three properties: word, interpret and format
-* word being the text to insert, interpret represents the attribute interpret-as and format represents the attribute format
-* @returns {Speech}
-*/
+ * Creates and inserts a say-as tag that has multiple attributes such as interpret-as and format
+ * interpret-as="cardinal|ordinal|digits|fraction|unit|date|time|telephone|address" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y"
+ *
+ * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
+ * @param options an object that has three properties: word, interpret and format
+ * word being the text to insert, interpret represents the attribute interpret-as and format represents the attribute format
+ * @returns {Speech}
+ */
 Speech.prototype.sayAs = function (options) {
     this._present(options, "The object provided to Speech#sayAs(..) was invalid.");
     this._present(options.word, "The word provided to Speech#sayAs(..) was null or undefined.");
@@ -200,8 +200,9 @@ Speech.prototype.sayAs = function (options) {
 Speech.prototype.partOfSpeech = function (options) {
     this._present(options, "The object provided to Speech#partOfSpeech(..) was invalid.");
     this._present(options.word, "The word provided to Speech#partOfSpeech(..) was null or undefined.");
+    var word = this._escape(options.word);
     if (options.role) {
-        this._elements.push("<w role=\'" + options.role + "'>" + options.word + "</w>")
+        this._elements.push("<w role=\'" + options.role + "'>" + word + "</w>")
     }
 };
 
@@ -218,10 +219,29 @@ Speech.prototype.phoneme = function (alphabet, ph, word) {
     this._present(alphabet, "The alphabet provided to Speech#phoneme(..) was null or undefined.");
     this._present(ph, "The ph provided to Speech#phoneme(..) was null or undefined.");
     this._present(word, "The word provided to Speech#phoneme(..) was null or undefined.");
+    var escapedWord = this._escape(word);
     if (ph.indexOf("'") !== -1) {
         ph = ph.replace(/'/g, '&apos;')
     }
-    this._elements.push("<phoneme alphabet=\'" + alphabet + "\'" + " ph=\'" + ph + "'>" + word + "</phoneme>");
+    this._elements.push("<phoneme alphabet=\'" + alphabet + "\'" + " ph=\'" + ph + "'>" + escapedWord + "</phoneme>");
+};
+
+Speech.prototype._escape = function (word) {
+        if (typeof(word) === "string") {
+            word = word.replace(/&/g, 'and');
+            word = word.replace(/</g, '');
+            word = word.replace(/>/g, '');
+            word = word.replace(/"/g, '');
+            word = word.replace(/'/g, '');
+            return word;
+        }
+        if (typeof(word) === "number") {
+            return word;
+        }
+        if (typeof(word) === "boolean") {
+            return word;
+        }
+        throw new Error('received invalid type ' + typeof(word));
 };
 
 module.exports = Speech;

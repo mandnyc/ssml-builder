@@ -18,6 +18,16 @@ describe('Speech', function () {
             assert.equal(speech.ssml(), "<speak>star</speak>");
         });
 
+        it('say should escape characters', function () {
+            speech.say("<star's>");
+            assert.equal(speech.ssml(), "<speak>stars</speak>");
+        });
+
+        it('say should escape characters', function () {
+            speech.say('<star"s>');
+            assert.equal(speech.ssml(), "<speak>stars</speak>");
+        });
+
         it('should generate a saying tag', function () {
             speech.say("hi");
             assert.equal(speech.ssml(), "<speak>hi</speak>");
@@ -28,8 +38,18 @@ describe('Speech', function () {
             assert.equal(speech.ssml(), "<speak><p>hi</p></speak>");
         });
 
+        it('paragraph should escape characters', function () {
+            speech.paragraph("<h'i>");
+            assert.equal(speech.ssml(), "<speak><p>hi</p></speak>");
+        });
+
         it('should build a sentence tag', function () {
             speech.sentence("hi");
+            assert.equal(speech.ssml(), "<speak><s>hi</s></speak>");
+        });
+
+        it('should build a sentence tag', function () {
+            speech.sentence("<h'i>");
             assert.equal(speech.ssml(), "<speak><s>hi</s></speak>");
         });
 
@@ -53,9 +73,19 @@ describe('Speech', function () {
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>mandy</say-as></speak>");
         });
 
+        it('spell should escape characters', function () {
+            speech.spell("<mandy's>");
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>mandys</say-as></speak>");
+        });
+
         it('should build a spell slowly tag', function () {
             speech.spellSlowly("mandy", "500ms");
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>m</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>a</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>n</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>d</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>y</say-as> <break time='500ms'/></speak>");
+        });
+
+        it('spell slowly should escape characters', function () {
+            speech.spellSlowly("<mandy's>", "500ms");
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'></say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>m</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>a</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>n</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>d</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>y</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'></say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>s</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'></say-as> <break time='500ms'/></speak>");
         });
 
     });
@@ -64,14 +94,6 @@ describe('Speech', function () {
 
         beforeEach(function () {
             speech = new Speech();
-        });
-
-        it('should build a sayAs interpret as spell-out', function () {
-            speech.sayAs({
-                "word": "mandy",
-                "interpret": "spell-out"
-            });
-            assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>mandy</say-as></speak>");
         });
 
         it('should build a sayAs interpret as cardinal number', function () {
@@ -161,7 +183,7 @@ describe('Speech', function () {
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='telephone' format='39'>+1-800-EXAMPLE</say-as></speak>");
         });
-        
+
         it('should build a sayAs interpret as address', function () {
             speech.sayAs({
                 "word": "320 W Mt Willson Ct",
@@ -569,12 +591,17 @@ describe('Speech', function () {
 
         it('ssml has speak tag', function () {
             speech.say("Hello");
-            assert.equal(speech.ssml(true), "Hello") ;
+            assert.equal(speech.ssml(true), "Hello");
         });
 
         it('ssml has no speak tag', function () {
             speech.say("Hello");
-            assert.equal(speech.ssml(false), "<speak>Hello</speak>") ;
+            assert.equal(speech.ssml(false), "<speak>Hello</speak>");
+        });
+
+        it('should escape all 5 characters', function () {
+            speech.say("<Cat's> & <Dog's>");
+            assert.equal(speech.ssml(false), "<speak>Cats and Dogs</speak>");
         });
     });
 
