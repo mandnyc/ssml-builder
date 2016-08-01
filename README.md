@@ -9,30 +9,30 @@ It works with both the new and old Alexa SDKs. See the code examples below.
 npm install ssml-builder --save
 ```
 ## Features
-This library supports the following SSML tags
-- audio
-- break
-- p
-- s
-- phoneme
-- speak
-- say-as which supports all of the known interpt-as values and formats. 
-   - cardinal
-   - ordinal
-   - digits
-   - fraction
-   - unit
-   - date
-   - time
-   - telephone
-   - address
-   
-  For more information, see link https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
-- w
-  - ivona:VB: Interpret the word as a verb (present simple).
-  - ivona:VBD: Interpret the word as a past participle.
-  - ivona:NN: Interpret the word as a noun.
-  - ivona:SENSE_1 see link https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#w
+* Works with both the new and old Alexa SDKs.
+* Handles special characters to ensure the SSML is well-formated.
+* This library supports the following SSML tags
+   * audio
+   * break
+   * p
+   * s
+   * phoneme
+   * speak
+   * say-as which supports all of the known interpt-as values and formats. For more information, see [Amazon Documentation here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as) 
+      * cardinal
+      * ordinal
+      * digits
+      * fraction
+      * unit
+      * date
+      * time
+      * telephone
+      * address
+      * w
+         * ivona:VB: Interpret the word as a verb (present simple).
+         * ivona:VBD: Interpret the word as a past participle.
+         * ivona:NN: Interpret the word as a noun.
+         * ivona:SENSE_1 For more information, see [Amazon Documentation here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#w)  
   
 
 ## Code Example for the new Alexa SDK
@@ -73,6 +73,3 @@ response.tell(speechOutput);
     "speech": "<speak>Hello <break time='1s'/> fellow Alexa developers</speak>"
   }
 ```
-
-## Future enhancement
-  * Escape special characters.
