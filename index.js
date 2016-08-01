@@ -120,8 +120,8 @@ Speech.prototype.toObject = function () {
  * This method will construct an SSML xml string.
  * @returns {string} An XML string.
  */
-Speech.prototype.ssml = function (hasSpeakTag) {
-    if(hasSpeakTag){
+Speech.prototype.ssml = function (excludeSpeakTag) {
+    if(excludeSpeakTag){
         return this._elements.join(" ");
     } 
     return "<speak>" + this._elements.join(" ") + "</speak>";
