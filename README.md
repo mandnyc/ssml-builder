@@ -17,7 +17,6 @@ This library supports the following SSML tags
 - phoneme
 - speak
 - say-as which supports all of the known interpt-as values and formats. 
-   - characters, spell-out
    - cardinal
    - ordinal
    - digits
