@@ -1,6 +1,6 @@
 {
   "name": "ssml-builder",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "This package creates Speech Synthesis Markup Language (SSML) using the builder pattern.",
   "main": "index.js",
   "directories": {
@@ -11,9 +11,17 @@
   },
   "keywords": [
     "ssml",
+    "amazon",
     "alexa",
+    "voice",
+    "alexa-skill",
+    "node",
     "skill"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mandnyc/ssml-builder"
+  },
   "author": "Mandy Chan",
   "license": "Apache-2.0",
   "devDependencies": {

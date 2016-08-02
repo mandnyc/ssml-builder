@@ -226,6 +226,12 @@ Speech.prototype.phoneme = function (alphabet, ph, word) {
     this._elements.push("<phoneme alphabet=\'" + alphabet + "\'" + " ph=\'" + ph + "'>" + escapedWord + "</phoneme>");
 };
 
+/**
+ * This method escapes any special characters that will cause SSML to be invalid.
+ * @param word being the text to insert
+ * @returns {*}
+ * @private
+ */
 Speech.prototype._escape = function (word) {
         if (typeof(word) === "string") {
             word = word.replace(/&/g, 'and');
