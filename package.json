@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test"
+    "test": "mocha test"
   },
   "keywords": [
     "ssml",
@@ -26,6 +26,6 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^2.5.3"
+    "mocha": "^3.2.0"
   }
 }

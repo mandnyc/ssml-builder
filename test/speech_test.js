@@ -96,6 +96,14 @@ describe('Speech', function () {
             speech = new Speech();
         });
 
+        it('should build a sayAs interpret as characters', function() {
+            speech.sayAs({
+                "word": "hello",
+                "interpret": "characters"
+            });
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='characters'>hello</say-as></speak>");
+        })
+
         it('should build a sayAs interpret as cardinal number', function () {
             speech.sayAs({
                 "word": "five",

@@ -167,7 +167,7 @@ Speech.prototype._validateDuration = function (duration) {
 
 /**
  * Creates and inserts a say-as tag that has multiple attributes such as interpret-as and format
- * interpret-as="cardinal|ordinal|digits|fraction|unit|date|time|telephone|address" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y"
+ * interpret-as="(characters|spell-out)|(cardinal|number)|ordinal|digits|fraction|unit|date|time|telephone|address" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y"
  *
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
  * @param options an object that has three properties: word, interpret and format
@@ -204,6 +204,8 @@ Speech.prototype.partOfSpeech = function (options) {
     if (options.role) {
         this._elements.push("<w role=\'" + options.role + "'>" + word + "</w>")
     }
+
+    return this;
 };
 
 /**
@@ -224,6 +226,8 @@ Speech.prototype.phoneme = function (alphabet, ph, word) {
         ph = ph.replace(/'/g, '&apos;')
     }
     this._elements.push("<phoneme alphabet=\'" + alphabet + "\'" + " ph=\'" + ph + "'>" + escapedWord + "</phoneme>");
+
+    return this;
 };
 
 /**

@@ -20,8 +20,9 @@ npm install ssml-builder --save
    * s
    * phoneme
    * speak
-   * say-as which supports all of the known interpret-as values and formats. For more information, see [Amazon Documentation here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as) 
-      * cardinal
+   * say-as which supports all of the known interpret-as values and formats. For more information, see [Amazon Documentation here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as)
+      * characters/spell-out
+      * cardinal/number
       * ordinal
       * digits
       * fraction
