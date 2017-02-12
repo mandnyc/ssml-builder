@@ -150,7 +150,7 @@ Speech.prototype._present = function (value, msg) {
  * @private
  */
 Speech.prototype._validateDuration = function (duration) {
-    var re = /^(\d+)(s|ms)$/;
+    var re = /^(\d*\.?\d+)(s|ms)$/;
     if (duration.match(re)) {
         var parts = re.exec(duration);
         var pauseDuration = parts[1];
