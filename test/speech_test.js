@@ -63,6 +63,16 @@ describe('Speech', function () {
             assert.equal(speech.ssml(), "<speak><break time='100ms'/></speak>");
         });
 
+        it('should build a pause tag for 0.5 seconds', function () {
+            speech.pause("0.5s");
+            assert.equal(speech.ssml(), "<speak><break time='0.5s'/></speak>");
+        });
+
+        it('should build a pause tag for .5 seconds', function () {
+            speech.pause(".5s");
+            assert.equal(speech.ssml(), "<speak><break time='.5s'/></speak>");
+        });
+
         it('should build a audio tag', function () {
             speech.audio("http://www.audio.com/sound.mp3");
             assert.equal(speech.ssml(), "<speak><audio src='http://www.audio.com/sound.mp3'/></speak>");
@@ -507,6 +517,7 @@ describe('Speech', function () {
                 speech.pause("11s");
             }, "The pause duration exceeds the allowed 10 second duration. Duration provided: 11");
         });
+
 
         it('should expect an exception for exceeding the duration', function () {
             assert.throws(function () {
