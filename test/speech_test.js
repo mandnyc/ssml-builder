@@ -238,6 +238,13 @@ describe('Speech', function () {
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='address' format='us-state'>CO</say-as></speak>");
         });
 
+        it('should build a sayAs interpret as interjection', function () {
+            speech.sayAs({
+                "word": "Well well! Booyah.",
+                "interpret": "interjection"
+            });
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='interjection'>Well well! Booyah.</say-as></speak>");
+        });
     });
 
     describe('date', function () {

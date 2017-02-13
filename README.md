@@ -31,6 +31,7 @@ npm install ssml-builder --save
       * time
       * telephone
       * address
+      * interjection (English (US) only)
   * w
       * ivona:VB: Interpret the word as a verb (present simple).
       * ivona:VBD: Interpret the word as a past participle.

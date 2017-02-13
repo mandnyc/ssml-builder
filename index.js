@@ -167,7 +167,7 @@ Speech.prototype._validateDuration = function (duration) {
 
 /**
  * Creates and inserts a say-as tag that has multiple attributes such as interpret-as and format
- * interpret-as="(characters|spell-out)|(cardinal|number)|ordinal|digits|fraction|unit|date|time|telephone|address" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y"
+ * interpret-as="(characters|spell-out)|(cardinal|number)|ordinal|digits|fraction|unit|date|time|telephone|address|interjection" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y"
  *
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
  * @param options an object that has three properties: word, interpret and format
