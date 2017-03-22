@@ -72,6 +72,36 @@ describe('Speech', function () {
             speech.pause(".5s");
             assert.equal(speech.ssml(), "<speak><break time='.5s'/></speak>");
         });
+		
+		it('should build a pause tag with no strength', function () {
+            speech.break("none");
+            assert.equal(speech.ssml(), "<speak><break strength='none'/></speak>");
+        });
+		
+		it('should build a pause tag with x-weak strength', function () {
+            speech.break("x-weak");
+            assert.equal(speech.ssml(), "<speak><break strength='x-weak'/></speak>");
+        });
+		
+		it('should build a pause tag with weak strength', function () {
+            speech.break("weak");
+            assert.equal(speech.ssml(), "<speak><break strength='weak'/></speak>");
+        });
+		
+		it('should build a pause tag with medium strength', function () {
+            speech.break("medium");
+            assert.equal(speech.ssml(), "<speak><break strength='medium'/></speak>");
+        });
+		
+		it('should build a pause tag with strong strength', function () {
+            speech.break("strong");
+            assert.equal(speech.ssml(), "<speak><break strength='strong'/></speak>");
+        });
+		
+		it('should build a pause tag with x-strong strength', function () {
+            speech.break("x-strong");
+            assert.equal(speech.ssml(), "<speak><break strength='x-strong'/></speak>");
+        });
 
         it('should build a audio tag', function () {
             speech.audio("http://www.audio.com/sound.mp3");
@@ -502,6 +532,12 @@ describe('Speech', function () {
             assert.throws(function () {
                 speech.pause(null);
             }, "The duration provided to Speech#pause(..) was null or undefined.");
+        });
+		
+		it('should expect a missing argument for break', function () {
+            assert.throws(function () {
+                speech.break(null);
+            }, "The strength provided to Speech#break(..) was null or undefined.");
         });
 
         it('should expect an exception for exceeding the duration', function () {
