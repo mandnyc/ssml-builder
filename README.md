@@ -14,12 +14,14 @@ npm install ssml-builder --save
 * Works with both the new and old Alexa SDKs.
 * Handles special characters to ensure the SSML is well-formated.
 * This library supports the following SSML tags
+   * amazon:effect   
    * audio
    * break
+   * emphasis
    * p
-   * s
    * phoneme
-   * speak
+   * prosody
+   * s
    * say-as which supports all of the known interpret-as values and formats. For more information, see [Amazon Documentation here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as) 
       * cardinal
       * ordinal
@@ -30,6 +32,10 @@ npm install ssml-builder --save
       * time
       * telephone
       * address
+      * interjection
+      * expletive
+  * speak
+  * sub
   * w
       * ivona:VB: Interpret the word as a verb (present simple).
       * ivona:VBD: Interpret the word as a past participle.
