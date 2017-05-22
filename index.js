@@ -30,6 +30,93 @@ Speech.prototype.say = function (saying) {
 };
 
 /**
+ * Creates and inserts an effect tag.
+ *
+ * effect="whispered"
+ *
+ * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#amazon-effect
+ *
+ * @param effect The effect to insert.
+ * @param word Word or text to insert.
+ * @returns {Speech}
+ */
+Speech.prototype.effect = function (effect, word) {
+    this._present(effect, "The effect provided to Speech#effect(..) was null or undefined.");
+    this._elements.push("<amazon:effect name='" + effect + "'>" + this._escape(word) + "</amazon:effect>");
+    return this;
+};
+
+/**
+ * Creates and inserts an emphasis tag. Emphasize the tagged words or phrases. Emphasis changes rate and volume of the speech.
+ * More emphasis is spoken louder and slower. Less emphasis is quieter and faster.
+ *
+ * level="strong|moderate|reduced|undefined". In case of undefined see default value in reference.
+ *
+ * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#emphasis
+ *
+ * @param level The effect to insert.
+ * @param word Word or text to insert.
+ * @returns {Speech}
+ */
+Speech.prototype.emphasis = function (level, word) {
+    if(this._isDefined(level)){
+        this._elements.push("<emphasis>" + this._escape(word) + "</emphasis>");
+    } else{
+        this._elements.push("<emphasis level='" + level + "'>" + this._escape(word) + "</emphasis>");
+    }
+    return this;
+};
+
+/**
+ * Creates and inserts a prosody tag. Modifies the volume, pitch, and rate of the tagged speech.
+ *
+ * options.rate="x-slow|slow|medium|fast|x-fast|n%"
+ * options.pitch="x-slow|slow|medium|fast|x-fast|+n%|-n%"
+ * options.volume="silent|x-soft|soft|medium|loud|x-loud|+ndB|-ndB"
+ *
+ * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#prosody
+ *
+ * @param options Object that contains rate, pitch, volume.
+ * @param word Word or text to insert.
+ *
+ * @returns {Speech}
+ */
+Speech.prototype.prosody = function (options, word) {
+    this._present(word, "The word provided to Speech#sub(..) was null or undefined.");
+
+    if(!this._isDefined(options) && !this._isDefined(options.rate) && !this._isDefined(options.pitch) && !this._isDefined(options.volume)) {
+        throw "Rate, pitch and volume provided to Speech#prosody(..) were null or undefined.";
+    }
+
+    this._elements.push("<prosody "
+                        + (this._isDefined(options.rate) ? "rate='" + options.rate + "' " : "")
+                        + (this._isDefined(options.pitch) ? "pitch='" + options.pitch + "' " : "")
+                        + (this._isDefined(options.volume) ? "volume='" + options.volume + "' " : "")
+                        +">" + this._escape(word) + "</prosody>");
+
+    return this;
+};
+
+/**
+ * Creates and inserts a sub tag. Pronounce the specified word or phrase as a different word or phrase.
+ * Specify the pronunciation to substitute with the alias attribute.
+ *
+ * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#alias
+ *
+ * @param alias
+ * @param word Word or text to insert.
+ *
+ * @returns {Speech}
+ */
+Speech.prototype.sub = function (alias, word) {
+    this._present(alias, "The alias provided to Speech#sub(..) was null or undefined.");
+    this._present(word, "The word provided to Speech#sub(..) was null or undefined.");
+    this._elements.push("<sub alias='" + alias +"'>" +this._escape(word) + "</sub>");
+    return this;
+};
+
+
+/**
  * Creates and inserts a paragraph tag.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#p
  * @param paragraph The paragraph of text to insert.
@@ -134,10 +221,21 @@ Speech.prototype.ssml = function (excludeSpeakTag) {
  * @private
  */
 Speech.prototype._present = function (value, msg) {
-    if (value === null || value === undefined) {
+    if (!this._isDefined(value)) {
         throw msg;
     }
 };
+
+/**
+ * Validates that the provided value is not null or undefined.
+ * @param value The value to check.
+ * @returns true if value is not (null or undefined)
+ * @private
+ */
+Speech.prototype._isDefined = function (value) {
+    return !(value === null || value === undefined);
+};
+
 
 /**
  * This validates that a duration is in the correct format and doesn't exceed the
@@ -167,7 +265,7 @@ Speech.prototype._validateDuration = function (duration) {
 
 /**
  * Creates and inserts a say-as tag that has multiple attributes such as interpret-as and format
- * interpret-as="cardinal|ordinal|digits|fraction|unit|date|time|telephone|address" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y"
+ * interpret-as="cardinal|ordinal|digits|fraction|unit|date|time|telephone|address|interjection|expletive" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y"
  *
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
  * @param options an object that has three properties: word, interpret and format
