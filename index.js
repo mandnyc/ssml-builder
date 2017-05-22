@@ -204,7 +204,7 @@ Speech.prototype.partOfSpeech = function (options) {
     if (options.role) {
         this._elements.push("<w role=\'" + options.role + "'>" + word + "</w>")
     }
-
+    
     return this;
 };
 
@@ -226,7 +226,7 @@ Speech.prototype.phoneme = function (alphabet, ph, word) {
         ph = ph.replace(/'/g, '&apos;')
     }
     this._elements.push("<phoneme alphabet=\'" + alphabet + "\'" + " ph=\'" + ph + "'>" + escapedWord + "</phoneme>");
-
+    
     return this;
 };
 
