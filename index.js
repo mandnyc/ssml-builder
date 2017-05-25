@@ -66,10 +66,6 @@ Speech.prototype.pause = function (duration) {
     return this;
 };
 
-Speech.prototype.pauseByStrength = function () {
-
-};
-
 /**
  * Creates and inserts an audio tag.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#audio
