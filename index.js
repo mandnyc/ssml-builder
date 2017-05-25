@@ -67,6 +67,19 @@ Speech.prototype.pause = function (duration) {
 };
 
 /**
+ * Creates and inserts a break tag. This method will also validate the break strength conforms to the restrictions to Amazon Alexa.
+ * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#break
+ * @param strength the strength represented by either value: ['none', 'x-weak', 'weak', 'medium', 'strong', 'x-strong'].
+ * @returns {Speech}
+ */
+Speech.prototype.break = function (strength) {
+    this._present(strength, "The strength provided to Speech#break(..) was null or undefined.");
+    this._validateStrength(strength);
+    this._elements.push("<break strength='" + strength + "'/>");
+    return this;
+};
+
+/**
  * Creates and inserts an audio tag.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#audio
  * @param url
@@ -164,6 +177,22 @@ Speech.prototype._validateDuration = function (duration) {
         }
     } else {
         throw "The duration must be a number followed by either 's' for second or 'ms' for milliseconds. e.g., 10s or 100ms. Max duration is 10 seconds (10000 milliseconds)."
+    }
+};
+
+/**
+ * This validates that a pause strength is a correct value.
+ *
+ * Correct values are: 'none', 'x-weak', 'weak', 'medium', 'strong', 'x-strong'
+ *
+ * @param strength The strength of a pause.
+ * @throws an exception when the strength is not a correct value
+ * @private
+ */
+Speech.prototype._validateStrength = function (strength) {
+    var correctValues = ['none', 'x-weak', 'weak', 'medium', 'strong', 'x-strong'];
+    if(correctValues.indexOf(strength) < 0){
+        throw "The pause strength should be a correct value.";
     }
 };
 
