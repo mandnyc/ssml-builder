@@ -67,6 +67,22 @@ Speech.prototype.pause = function (duration) {
 };
 
 /**
+ * Creates a break tag that will pause the audio based upon the strength provided. 
+ * For more information, please see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#break
+ * @param strength such as none, x-weak, weak, medium, strong, x-strong
+ * @returns {Speech}
+ */
+Speech.prototype.pauseByStrength = function (strength) {
+    this._present(strength, "The strength provided to Speech#pauseByStrength(..) was null or undefined");
+    strength = strength.toLowerCase().trim();
+    var strengths = ['none', 'x-weak', 'weak', 'medium', 'strong', 'x-strong'];
+    isInList(strength, strengths, "The strength provided to Speech#pauseByStrength(..) was not valid. Received strength: " + strength);
+
+    this._elements.push("<break strength='" + strength + "'/>");
+    return this;
+};
+
+/**
  * Creates and inserts an audio tag.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#audio
  * @param url
@@ -169,7 +185,7 @@ Speech.prototype._validateDuration = function (duration) {
 
 /**
  * Creates and inserts a say-as tag that has multiple attributes such as interpret-as and format
- * interpret-as="cardinal|ordinal|digits|fraction|unit|date|time|telephone|address|interjection|expletive" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y"
+ * interpret-as="characters|spell-out|cardinal|number|ordinal|digits|fraction|unit|date|time|telephone|address|interjection|expletive" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y"
  *
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
  * @param options an object that has three properties: word, interpret and format
@@ -366,7 +382,7 @@ function validateAttribute(obj, attribute, validList, onCheck, onSuccessful) {
 }
 
 /**
- * This function ensures that the value of the rate must be equal or great than 20%
+ * This method ensures that the value of the rate must be equal or great than 20%
  * @param num is the value of rate
  */
 function checkRateRange(num) {
@@ -377,6 +393,12 @@ function checkRateRange(num) {
     }
 }
 
+/**
+ * This method lets the user provide an alias and pronounce the specified word or pharse as a different word or phrase
+ * @param alias is the word that you want to pronounce instead of the original word
+ * @param word
+ * @returns {Speech}
+ */
 Speech.prototype.sub = function (alias, word) {
     this._present(alias, "The alias provided to Speech#sub(..) was null or undefined");
     this._notEmpty(alias, "The alias provided to Speech#sub(..) was empty");
@@ -387,7 +409,12 @@ Speech.prototype.sub = function (alias, word) {
     return this;
 };
 
-
+/**
+ * This method validates if the value exists in the list of values
+ * @param value
+ * @param listOfValues
+ * @param msg is the error message that will be thrown when the value is not in the list
+ */
 function isInList(value, listOfValues, msg) {
     value = value.toLowerCase().trim();
     if (listOfValues.indexOf(value) === -1) {

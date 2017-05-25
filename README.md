@@ -14,8 +14,11 @@ npm install ssml-builder --save
 * Works with both the new and old Alexa SDKs.
 * Handles special characters to ensure the SSML is well-formated.
 * This library supports the following SSML tags
+   * amazon:effect
    * audio
    * break
+   * emphasis
+   * prosody
    * p
    * s
    * phoneme
@@ -41,9 +44,6 @@ npm install ssml-builder --save
       * ivona:NN: Interpret the word as a noun.
       * ivona:SENSE_1: for more information, see [Amazon Documentation here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#w)  
 
-  * amazon:effect
-  * emphasis
-  * prosody
 
 ## Code Example for the new Alexa SDK
 #### see link to the new Alexa SDK https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs
