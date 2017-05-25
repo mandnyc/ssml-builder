@@ -99,7 +99,7 @@ var AmazonSpeech = require('ssml-builder/amazon_speech');
 var speech = new AmazonSpeech();
 speech.say('Hello');
 speech.pause('1s');
-speech.whisper('I can see you when you're sleeping);
+speech.whisper('I can see you when you are sleeping');
 speech.pause('500ms');
 speech.say('Is your phone number still');
 speech.sayAs({
