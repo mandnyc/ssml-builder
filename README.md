@@ -21,7 +21,10 @@ npm install ssml-builder --save
    * phoneme
    * speak
    * say-as which supports all of the known interpret-as values and formats. For more information, see [Amazon Documentation here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as) 
+      * characters
+      * spell-out
       * cardinal
+      * number
       * ordinal
       * digits
       * fraction
@@ -30,12 +33,17 @@ npm install ssml-builder --save
       * time
       * telephone
       * address
+      * interjection
+      * expletive
   * w
       * ivona:VB: Interpret the word as a verb (present simple).
       * ivona:VBD: Interpret the word as a past participle.
       * ivona:NN: Interpret the word as a noun.
       * ivona:SENSE_1: for more information, see [Amazon Documentation here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#w)  
-  
+
+  * amazon:effect
+  * emphasis
+  * prosody
 
 ## Code Example for the new Alexa SDK
 #### see link to the new Alexa SDK https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs
@@ -81,4 +89,22 @@ response.tell(speechOutput);
     "type": "SSML",
     "speech": "<speak>Hello <break time='1s'/> fellow Alexa developers</speak>"
   }
+```
+## Amazon SSML specific tags
+When using Amazon specific tags, like whisper, you will need to import and use the AmazonSpeech object directly.
+
+```javascript
+var AmazonSpeech = require('ssml-builder/amazon_speech');
+
+var speech = new AmazonSpeech();
+speech.say('Hello');
+speech.pause('1s');
+speech.whisper('I can see you when you're sleeping);
+speech.pause('500ms');
+speech.say('Is your phone number still');
+speech.sayAs({
+              word: "+1-377-777-1888",
+              interpret: "telephone"
+            });
+var ssml = speech.ssml();
 ```
