@@ -13,89 +13,154 @@ describe('Speech', function () {
             speech = new Speech();
         });
 
-        it('should generate a saying tag2', function () {
-            speech.say("star");
-            assert.equal(speech.ssml(), "<speak>star</speak>");
+        describe('say', function () {
+
+            it('should generate a saying tag2', function () {
+                speech.say("star");
+                assert.equal(speech.ssml(), "<speak>star</speak>");
+            });
+
+            it('say should escape characters', function () {
+                speech.say("<star's>");
+                assert.equal(speech.ssml(), "<speak>stars</speak>");
+            });
+
+            it('say should escape characters', function () {
+                speech.say('<star"s>');
+                assert.equal(speech.ssml(), "<speak>stars</speak>");
+            });
+
+            it('should generate a saying tag', function () {
+                speech.say("hi");
+                assert.equal(speech.ssml(), "<speak>hi</speak>");
+            });
+
         });
 
-        it('say should escape characters', function () {
-            speech.say("<star's>");
-            assert.equal(speech.ssml(), "<speak>stars</speak>");
+        describe('paragraph', function () {
+
+            it('should build a paragraph tag', function () {
+                speech.paragraph("hi");
+                assert.equal(speech.ssml(), "<speak><p>hi</p></speak>");
+            });
+
+            it('paragraph should escape characters', function () {
+                speech.paragraph("<h'i>");
+                assert.equal(speech.ssml(), "<speak><p>hi</p></speak>");
+            });
+
         });
 
-        it('say should escape characters', function () {
-            speech.say('<star"s>');
-            assert.equal(speech.ssml(), "<speak>stars</speak>");
+        describe('sentence', function () {
+
+            it('should build a sentence tag', function () {
+                speech.sentence("hi");
+                assert.equal(speech.ssml(), "<speak><s>hi</s></speak>");
+            });
+
+            it('should build a sentence tag escape characters', function () {
+                speech.sentence("<h'i>");
+                assert.equal(speech.ssml(), "<speak><s>hi</s></speak>");
+            });
+
         });
 
-        it('should generate a saying tag', function () {
-            speech.say("hi");
-            assert.equal(speech.ssml(), "<speak>hi</speak>");
+        describe('pause', function () {
+
+            it('should build a pause tag for 1 second', function () {
+                speech.pause("1s");
+                assert.equal(speech.ssml(), "<speak><break time='1s'/></speak>");
+            });
+
+            it('should build a pause tag for 100 milliseconds', function () {
+                speech.pause("100ms");
+                assert.equal(speech.ssml(), "<speak><break time='100ms'/></speak>");
+            });
+
+            it('should build a pause tag for 0.5 seconds', function () {
+                speech.pause("0.5s");
+                assert.equal(speech.ssml(), "<speak><break time='0.5s'/></speak>");
+            });
+
+            it('should build a pause tag for .5 seconds', function () {
+                speech.pause(".5s");
+                assert.equal(speech.ssml(), "<speak><break time='.5s'/></speak>");
+            });
+
         });
 
-        it('should build a paragraph tag', function () {
-            speech.paragraph("hi");
-            assert.equal(speech.ssml(), "<speak><p>hi</p></speak>");
+        describe('pauseByStrength', function () {
+
+            describe('positive', function () {
+
+                it('should generate the tag with valid strength', function (){
+                    speech.pauseByStrength("x-weak");
+                    assert.equal(speech.ssml(), "<speak><break strength='x-weak'/></speak>");
+                });
+
+                it('should generate the tag with valid strength case sensitive', function (){
+                    speech.pauseByStrength("X-WEAK");
+                    assert.equal(speech.ssml(), "<speak><break strength='x-weak'/></speak>");
+                });
+
+                it('should generate the tag with valid strength case sensitive and extra space', function (){
+                    speech.pauseByStrength("X-WEAK  ");
+                    assert.equal(speech.ssml(), "<speak><break strength='x-weak'/></speak>");
+                });
+            });
+
+            describe('negative', function () {
+
+                it('should throw an exception because of invalid strength', function (){
+                    assert.throws(function () {
+                        speech.pauseByStrength('banana');
+                    }, "The strength provided to Speech#pauseByStrength(..) was not valid. Received strength: banana");
+                });
+
+                it('should throw an exception because of missing strength', function (){
+                    assert.throws(function () {
+                        speech.pauseByStrength(null);
+                    }, "The strength provided to Speech#pauseByStrength(..) was null or undefined");
+                });
+
+            });
         });
 
-        it('paragraph should escape characters', function () {
-            speech.paragraph("<h'i>");
-            assert.equal(speech.ssml(), "<speak><p>hi</p></speak>");
+        describe('audio', function () {
+
+            it('should build a audio tag', function () {
+                speech.audio("http://www.audio.com/sound.mp3");
+                assert.equal(speech.ssml(), "<speak><audio src='http://www.audio.com/sound.mp3'/></speak>");
+            });
+
         });
 
-        it('should build a sentence tag', function () {
-            speech.sentence("hi");
-            assert.equal(speech.ssml(), "<speak><s>hi</s></speak>");
+        describe('spell', function () {
+
+            it('should build a spell tag', function () {
+                speech.spell("mandy");
+                assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>mandy</say-as></speak>");
+            });
+
+            it('spell should escape characters', function () {
+                speech.spell("<mandy's>");
+                assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>mandys</say-as></speak>");
+            });
+
         });
 
-        it('should build a sentence tag', function () {
-            speech.sentence("<h'i>");
-            assert.equal(speech.ssml(), "<speak><s>hi</s></speak>");
-        });
+        describe('spellSlowly', function () {
 
-        it('should build a pause tag for 1 second', function () {
-            speech.pause("1s");
-            assert.equal(speech.ssml(), "<speak><break time='1s'/></speak>");
-        });
+            it('should build a spell slowly tag', function () {
+                speech.spellSlowly("mandy", "500ms");
+                assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>m</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>a</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>n</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>d</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>y</say-as> <break time='500ms'/></speak>");
+            });
 
-        it('should build a pause tag for 100 milliseconds', function () {
-            speech.pause("100ms");
-            assert.equal(speech.ssml(), "<speak><break time='100ms'/></speak>");
-        });
+            it('spell slowly should escape characters', function () {
+                speech.spellSlowly("<mandy's>", "500ms");
+                assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'></say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>m</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>a</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>n</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>d</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>y</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'></say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>s</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'></say-as> <break time='500ms'/></speak>");
+            });
 
-        it('should build a pause tag for 0.5 seconds', function () {
-            speech.pause("0.5s");
-            assert.equal(speech.ssml(), "<speak><break time='0.5s'/></speak>");
-        });
-
-        it('should build a pause tag for .5 seconds', function () {
-            speech.pause(".5s");
-            assert.equal(speech.ssml(), "<speak><break time='.5s'/></speak>");
-        });
-
-        it('should build a audio tag', function () {
-            speech.audio("http://www.audio.com/sound.mp3");
-            assert.equal(speech.ssml(), "<speak><audio src='http://www.audio.com/sound.mp3'/></speak>");
-        });
-
-        it('should build a spell tag', function () {
-            speech.spell("mandy");
-            assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>mandy</say-as></speak>");
-        });
-
-        it('spell should escape characters', function () {
-            speech.spell("<mandy's>");
-            assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>mandys</say-as></speak>");
-        });
-
-        it('should build a spell slowly tag', function () {
-            speech.spellSlowly("mandy", "500ms");
-            assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>m</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>a</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>n</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>d</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>y</say-as> <break time='500ms'/></speak>");
-        });
-
-        it('spell slowly should escape characters', function () {
-            speech.spellSlowly("<mandy's>", "500ms");
-            assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'></say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>m</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>a</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>n</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>d</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>y</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'></say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>s</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'></say-as> <break time='500ms'/></speak>");
         });
 
     });
@@ -117,9 +182,9 @@ describe('Speech', function () {
         it('should build a sayAs interpret as cardinal number', function () {
             speech.sayAs({
                 "word": "five",
-                "interpret": "number"
+                "interpret": "cardinal"
             });
-            assert.equal(speech.ssml(), "<speak><say-as interpret-as='number'>five</say-as></speak>");
+            assert.equal(speech.ssml(), "<speak><say-as interpret-as='cardinal'>five</say-as></speak>");
         });
 
         it('should build a sayAs interpret as ordinal number', function () {
@@ -236,6 +301,17 @@ describe('Speech', function () {
                 "format": "us-state"
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='address' format='us-state'>CO</say-as></speak>");
+        });
+        
+        it('should throw an exception because of invalid interpret', function () {
+            assert.throws(function () {
+                speech.sayAs({
+                    "word": "CO",
+                    "interpret": "banana",
+                    "format": "us-state"
+                });
+            }, "The interpret is invalid. Received this: banana");
+
         });
 
         it('should build a sayAs interpret as interjection', function () {
@@ -608,7 +684,6 @@ describe('Speech', function () {
 
     });
 
-
     describe('ssml', function () {
 
         beforeEach(function () {
@@ -629,6 +704,467 @@ describe('Speech', function () {
             speech.say("<Cat's> & <Dog's>");
             assert.equal(speech.ssml(false), "<speak>Cats and Dogs</speak>");
         });
+    });
+
+    describe('emphasis', function () {
+
+        beforeEach(function () {
+            speech = new Speech();
+        });
+
+        describe('positive', function () {
+
+            it('should generate the tag with the level and word', function () {
+                speech.emphasis('strong', 'really like');
+                assert.equal(speech.ssml(), "<speak><emphasis level='strong'>really like</emphasis></speak>");
+            });
+
+            it('should generate the tag with the level and word that include special characters', function () {
+                speech.emphasis('strong', 'really like & hate');
+                assert.equal(speech.ssml(), "<speak><emphasis level='strong'>really like and hate</emphasis></speak>");
+            });
+        });
+
+        describe('negative', function () {
+            it('should expect a missing argument level', function () {
+                assert.throws(function () {
+                    speech.emphasis(null, 'really like');
+                }, "The level provided to Speech#emphasis(..) was null or undefined");
+            });
+
+            it('should expect an undefined level', function () {
+                assert.throws(function () {
+                    speech.emphasis(undefined, 'really like');
+                }, "The level provided to Speech#emphasis(..) was null or undefined");
+            });
+
+            it('should expect an invalid level', function () {
+                assert.throws(function () {
+                    speech.emphasis('hello', 'really like');
+                }, "The level provided to Speech#emphasis(..) was not valid. Received level: hello");
+            });
+
+
+            it('should expect a missing argument word', function () {
+                assert.throws(function () {
+                    speech.emphasis('strong', null);
+                }, "The word provided to Speech#emphasis(..) was null or undefined");
+            });
+
+            it('should expect an undefined word', function () {
+                assert.throws(function () {
+                    speech.emphasis('strong', undefined);
+                }, "The word provided to Speech#emphasis(..) was null or undefined");
+            });
+
+            it('should expect an empty word', function () {
+                assert.throws(function () {
+                    speech.emphasis('strong', '');
+                }, "The word provided to Speech#emphasis(..) was empty");
+            });
+
+        });
+    });
+
+    describe('prosody', function () {
+
+        beforeEach(function () {
+            speech = new Speech();
+        });
+
+        describe('rate', function () {
+
+            describe('positive', function () {
+
+                it('should generate a prosody tag with the rate attribute and word', function () {
+                    var validRates = ['x-slow', 'slow', 'medium', 'fast', 'x-fast'];
+                    for (var i = 0; i < validRates.length; i++) {
+                        speech.prosody({rate: validRates[i]}, 'really like');
+                        assert.equal(speech.ssml(), "<speak><prosody rate='" + validRates[i] + "'>really like</prosody></speak>");
+                        speech = new Speech();
+                    }
+                });
+
+
+                it('should generate a prosody tag with the rate attribute and word that include special characters', function () {
+                    var validRates = ['x-slow', 'slow', 'medium', 'fast', 'x-fast'];
+                    for (var i = 0; i < validRates.length; i++) {
+                        speech.prosody({rate: validRates[i]}, 'really like & hate');
+                        assert.equal(speech.ssml(), "<speak><prosody rate='" + validRates[i] + "'>really like and hate</prosody></speak>");
+                        speech = new Speech();
+                    }
+                });
+
+                it('should generate a prosody tag with the rate attribute case sensitive', function () {
+                    speech.prosody({rate: 'x-SLOW'}, 'really like');
+                    assert.equal(speech.ssml(), "<speak><prosody rate='x-slow'>really like</prosody></speak>");
+                });
+
+                it('should generate a prosody tag with the rate attribute case sensitive and extra space', function () {
+                    speech.prosody({rate: 'x-SLOW  '}, 'really like');
+                    assert.equal(speech.ssml(), "<speak><prosody rate='x-slow'>really like</prosody></speak>");
+                });
+
+                it('should generate a prosody tag with the rate attribute being positive %', function () {
+                    speech.prosody({rate: '+50%'}, 'really like');
+                    assert.equal(speech.ssml(), "<speak><prosody rate='+50%'>really like</prosody></speak>");
+                });
+
+                it('should generate a prosody tag with the rate attribute', function () {
+                    speech.prosody({rate: '40%'}, 'really like');
+                    assert.equal(speech.ssml(), "<speak><prosody rate='40%'>really like</prosody></speak>");
+                });
+
+            });
+
+            describe('negative', function () {
+
+                it('should expect missing attributes', function () {
+                    assert.throws(function () {
+                        speech.prosody(null, 'really like');
+                    }, "The attributes provided to Speech#prosody(..) was null or undefined");
+                });
+
+                it('should expect an undefined attributes', function () {
+                    assert.throws(function () {
+                        speech.prosody(undefined, 'really like');
+                    }, "The attributes provided to Speech#prosody(..) was null or undefined");
+                });
+
+                it('should expect an invalid rate attribute', function () {
+                    assert.throws(function () {
+                        speech.prosody({rate: 'quick'}, 'really like');
+                    }, "attributes.rate is not a valid rate");
+                });
+
+                it('should expect an invalid rate attribute with invalid %', function () {
+                    assert.throws(function () {
+                        speech.prosody({rate: ' d%'}, 'really like');
+                    }, "attributes.rate is not a valid rate");
+                });
+
+                it('should expect an invalid rate attribute with negative % or any % less than 20', function () {
+                    assert.throws(function () {
+                        speech.prosody({rate: '-40%'}, 'really like');
+                    }, "The minimum rate is twenty percentage. Received: -40");
+                });
+
+                // word
+                it('should expect a missing argument word', function () {
+                    assert.throws(function () {
+                        speech.prosody({rate: 'x-slow'}, null);
+                    }, "The word provided to Speech#prosody(..) was null or undefined");
+                });
+
+                it('should expect an undefined word', function () {
+                    assert.throws(function () {
+                        speech.prosody({rate: 'x-slow'}, undefined);
+                    }, "The word provided to Speech#prosody(..) was null or undefined");
+                });
+
+                it('should expect an empty word', function () {
+                    assert.throws(function () {
+                        speech.prosody({rate: 'x-slow'}, '');
+                    }, "The word provided to Speech#prosody(..) was empty");
+                });
+
+            });
+
+        });
+
+        describe('pitch', function () {
+
+            describe('positive', function () {
+
+                it('should generate a prosody tag with the pitch attribute and word', function () {
+                    var validPitches = ['x-low', 'low', 'medium', 'high', 'x-high'];
+                    for (var i = 0; i < validPitches.length; i++) {
+                        speech.prosody({pitch: validPitches[i]}, 'really like');
+                        assert.equal(speech.ssml(), "<speak><prosody pitch='" + validPitches[i] + "'>really like</prosody></speak>");
+                        speech = new Speech();
+                    }
+                });
+
+                it('should generate a prosody tag with the pitch attribute and word that include special characters', function () {
+                    var validPitches = ['x-low', 'low', 'medium', 'high', 'x-high'];
+                    for (var i = 0; i < validPitches.length; i++) {
+                        speech.prosody({pitch: validPitches[i]}, 'really like & hate');
+                        assert.equal(speech.ssml(), "<speak><prosody pitch='" + validPitches[i] + "'>really like and hate</prosody></speak>");
+                        speech = new Speech();
+                    }
+                });
+
+                it('should generate a prosody tag with the pitch attribute and word case sensitive', function () {
+                    speech.prosody({pitch: 'x-HIGH'}, 'really like');
+                    assert.equal(speech.ssml(), "<speak><prosody pitch='x-high'>really like</prosody></speak>");
+                });
+
+                it('should generate a prosody tag with the pitch attribute and word case sensitive and extra space', function () {
+                    speech.prosody({pitch: 'x-HIGH  '}, 'really like');
+                    assert.equal(speech.ssml(), "<speak><prosody pitch='x-high'>really like</prosody></speak>");
+                });
+
+                it('should generate a prosody tag with the pitch attribute positive %', function () {
+                    speech.prosody({pitch: '+50%'}, 'really like');
+                    assert.equal(speech.ssml(), "<speak><prosody pitch='+50%'>really like</prosody></speak>");
+                });
+
+                it('should generate a prosody tag with the pitch attribute negative %', function () {
+                    speech.prosody({pitch: '-40%'}, 'really like');
+                    assert.equal(speech.ssml(), "<speak><prosody pitch='-40%'>really like</prosody></speak>");
+                });
+
+                it('should generate a prosody tag with the pitch attribute negative and decimal %', function () {
+                    speech.prosody({pitch: '-40.5%'}, 'really like');
+                    assert.equal(speech.ssml(), "<speak><prosody pitch='-40.5%'>really like</prosody></speak>");
+                });
+
+            });
+
+            describe('negative', function () {
+
+                it('should expect missing attributes', function () {
+                    assert.throws(function () {
+                        speech.prosody(null, 'really like');
+                    }, "The attributes provided to Speech#prosody(..) was null or undefined");
+                });
+
+                it('should expect an undefined attributes', function () {
+                    assert.throws(function () {
+                        speech.prosody(undefined, 'really like');
+                    }, "The attributes provided to Speech#prosody(..) was null or undefined");
+                });
+
+                it('should expect an invalid attributes.pitch', function () {
+                    assert.throws(function () {
+                        speech.prosody({pitch: 'quick'}, 'really like');
+                    }, "attributes.pitch is not a valid pitch");
+                });
+
+                it('should expect an invalid attributes.pitch with non number %', function () {
+                    assert.throws(function () {
+                        speech.prosody({pitch: ' d%'}, 'really like');
+                    }, "attributes.pitch is not a valid pitch");
+                });
+
+                // word
+                it('should expect a missing argument word', function () {
+                    assert.throws(function () {
+                        speech.prosody({pitch: 'x-low'}, null);
+                    }, "The word provided to Speech#prosody(..) was null or undefined");
+                });
+
+                it('should expect an undefined word', function () {
+                    assert.throws(function () {
+                        speech.prosody({pitch: 'x-low'}, undefined);
+                    }, "The word provided to Speech#prosody(..) was null or undefined");
+                });
+
+                it('should expect an empty word', function () {
+                    assert.throws(function () {
+                        speech.prosody({pitch: 'x-low'}, '');
+                    }, "The word provided to Speech#prosody(..) was empty");
+                });
+
+
+            });
+
+        });
+
+
+        describe('volume', function () {
+
+            describe('positive', function () {
+
+                it('should generate a prosody tag with the volume attribute and word', function () {
+                    var validVolumes = ['silent', 'x-soft', 'soft', 'medium', 'loud', 'x-loud'];
+                    for (var i = 0; i < validVolumes.length; i++) {
+                        speech.prosody({volume: validVolumes[i]}, 'really like');
+                        assert.equal(speech.ssml(), "<speak><prosody volume='" + validVolumes[i] + "'>really like</prosody></speak>");
+                        speech = new Speech();
+                    }
+                });
+
+                it('should generate a prosody tag with the volume attribute and word that include special characters', function () {
+                    var validVolumes = ['silent', 'x-soft', 'soft', 'medium', 'loud', 'x-loud'];
+                    for (var i = 0; i < validVolumes.length; i++) {
+                        speech.prosody({volume: validVolumes[i]}, 'really like & hate');
+                        assert.equal(speech.ssml(), "<speak><prosody volume='" + validVolumes[i] + "'>really like and hate</prosody></speak>");
+                        speech = new Speech();
+                    }
+                });
+
+                it('should generate a prosody tag with the volume attribute and word case sensitive', function () {
+                    speech.prosody({volume: 'SILENT'}, 'really like');
+                    assert.equal(speech.ssml(), "<speak><prosody volume='silent'>really like</prosody></speak>");
+                });
+
+                it('should generate a prosody tag with the volume attribute and word case sensitive and extra space', function () {
+                    speech.prosody({volume: 'SILENT  '}, 'really like');
+                    assert.equal(speech.ssml(), "<speak><prosody volume='silent'>really like</prosody></speak>");
+                });
+
+                it('should generate a prosody tag with the volume attribute positive dB', function () {
+                    speech.prosody({volume: '+6dB'}, 'really like');
+                    assert.equal(speech.ssml(), "<speak><prosody volume='+6dB'>really like</prosody></speak>");
+                });
+
+            });
+
+            describe('negative', function () {
+
+                it('should expect missing attributes', function () {
+                    assert.throws(function () {
+                        speech.prosody(null, 'really like');
+                    }, "The attributes provided to Speech#prosody(..) was null or undefined");
+                });
+
+                it('should expect an undefined attributes', function () {
+                    assert.throws(function () {
+                        speech.prosody(undefined, 'really like');
+                    }, "The attributes provided to Speech#prosody(..) was null or undefined");
+                });
+
+                it('should expect an invalid pitch attribute', function () {
+                    assert.throws(function () {
+                        speech.prosody({volume: 'quick'}, 'really like');
+                    }, "attributes.volume is not a valid volume");
+                });
+
+                it('should expect an invalid pitch attribute with invalid %', function () {
+                    assert.throws(function () {
+                        speech.prosody({volume: ' d%'}, 'really like');
+                    }, "attributes.volume is not a valid volume");
+                });
+
+                // word
+                it('should expect a missing argument word', function () {
+                    assert.throws(function () {
+                        speech.prosody({volume: 'silent'}, null);
+                    }, "The word provided to Speech#prosody(..) was null or undefined");
+                });
+
+                it('should expect an undefined word', function () {
+                    assert.throws(function () {
+                        speech.prosody({volume: 'silent'}, undefined);
+                    }, "The word provided to Speech#prosody(..) was null or undefined");
+                });
+
+                it('should expect an empty word', function () {
+                    assert.throws(function () {
+                        speech.prosody({volume: 'silent'}, '');
+                    }, "The word provided to Speech#prosody(..) was empty");
+                });
+
+            });
+        });
+
+        describe('combination of rate, pitch, volume', function () {
+
+            describe('postive', function () {
+
+                it('should generate a prosody tag with the rate and pitch attributes and word', function () {
+                    speech.prosody({rate: "x-slow", pitch: "x-high"}, 'really like');
+                    assert.equal(speech.ssml(), "<speak><prosody rate='x-slow' " + "pitch='x-high'>" + "really like</prosody></speak>");
+                    speech = new Speech();
+                });
+
+                it('should generate a prosody tag with the rate and pitch attributes and word that include special characters', function () {
+                    speech.prosody({rate: "x-slow", pitch: "x-high"}, 'really like & hate');
+                    assert.equal(speech.ssml(), "<speak><prosody rate='x-slow' " + "pitch='x-high'>" + "really like and hate</prosody></speak>");
+                    speech = new Speech();
+                });
+
+                it('should generate a prosody tag with the rate and pitch attributes and word case sensitive', function () {
+                    speech.prosody({rate: "x-SLOW", pitch: "x-HIGH"}, 'really like & hate');
+                    assert.equal(speech.ssml(), "<speak><prosody rate='x-slow' " + "pitch='x-high'>" + "really like and hate</prosody></speak>");
+                    speech = new Speech();
+                });
+
+                it('should generate a prosody tag with the rate and pitch attributes and word case sensitive and extra space', function () {
+                    speech.prosody({rate: "x-SLOW  ", pitch: "x-HIGH  "}, 'really like & hate');
+                    assert.equal(speech.ssml(), "<speak><prosody rate='x-slow' " + "pitch='x-high'>" + "really like and hate</prosody></speak>");
+                    speech = new Speech();
+                });
+
+                it('should generate a prosody tag with the rate, pitch attributes with negative %, and volume attribute with positive dB', function () {
+                    speech.prosody({rate: "30%", pitch: '-40.5%', volume: '+6dB'}, 'really like & hate');
+                    assert.equal(speech.ssml(), "<speak><prosody rate='30%' " + "pitch='-40.5%' " + "volume='+6dB'>" + "really like and hate</prosody></speak>");
+                    speech = new Speech();
+                });
+
+            });
+
+        });
+
+    });
+
+    describe('check rate range', function () {
+
+        beforeEach(function () {
+            speech = new Speech();
+        });
+
+        it('should expect an exception when rate is less than 20 percentage', function () {
+            assert.throws(function () {
+                speech.prosody({rate: '10%'}, 'really like');
+            }, "The minimum rate is twenty percentage");
+        });
+
+    });
+
+    describe('sub', function () {
+
+        beforeEach(function () {
+            speech = new Speech();
+        });
+
+        describe('positive', function () {
+
+            it('should generate a sub tag', function () {
+                speech.sub('magnesium', 'Mg');
+                assert.equal(speech.ssml(), "<speak><sub alias='magnesium'>Mg</sub></speak>");
+            });
+
+            it('should generate a sub tag special characters', function () {
+                speech.sub('magnesium', 'Mg &');
+                assert.equal(speech.ssml(), "<speak><sub alias='magnesium'>Mg and</sub></speak>");
+            });
+            it('should generate a sub tag special characters', function () {
+                speech.sub('mine', "It's mine");
+                assert.equal(speech.ssml(), "<speak><sub alias='mine'>Its mine</sub></speak>");
+            });
+
+        });
+
+        describe('negative', function () {
+
+            it('should throw an exception for missing alias', function () {
+                assert.throws(function () {
+                    speech.sub(null, 'Mg');
+                }, "The alias provided to Speech#sub(..) was null or undefined");
+            });
+
+            it('should throw an exception for missing alias', function () {
+                assert.throws(function () {
+                    speech.sub('', 'Mg');
+                }, "The alias provided to Speech#sub(..) was empty");
+            });
+
+            it('should throw an exception for missing alias', function () {
+                assert.throws(function () {
+                    speech.sub('magnesium', null);
+                }, "The word provided to Speech#sub(..) was null or undefined");
+            });
+
+            it('should throw an exception for missing alias', function () {
+                assert.throws(function () {
+                    speech.sub('magnesium', '');
+                }, "The word provided to Speech#sub(..) was empty");
+            });
+
+        });
+
     });
 
 });
