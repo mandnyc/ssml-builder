@@ -1,6 +1,6 @@
 {
   "name": "ssml-builder",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "This package creates Speech Synthesis Markup Language (SSML) using the builder pattern.",
   "main": "index.js",
   "directories": {
@@ -13,6 +13,10 @@
     "ssml",
     "amazon",
     "alexa",
+    "google",
+    "actions",
+    "actions-on-google",
+    "google-assistant",
     "voice",
     "alexa-skill",
     "node",
