@@ -67,7 +67,7 @@ Speech.prototype.pause = function (duration) {
 };
 
 /**
- * Creates a break tag that will pause the audio based upon the strength provided. 
+ * Creates a break tag that will pause the audio based upon the strength provided.
  * For more information, please see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#break
  * @param strength such as none, x-weak, weak, medium, strong, x-strong
  * @returns {Speech}
@@ -85,14 +85,25 @@ Speech.prototype.pauseByStrength = function (strength) {
 /**
  * Creates and inserts an audio tag.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#audio
- * @param url
+ * @param url a link to an audio file to play.
+ * @param callback - an optional callback which is called to build the nested SSML
+ *                   for the audio tag. The callback takes a single parameter of type
+ *                   Speech.
  * @returns {Speech}
  */
-Speech.prototype.audio = function (url) {
-    this._present(url, "The url provided to Speech#audio(..) was null or undefined.");
-    this._elements.push("<audio src='" + url + "'/>");
-    return this;
-};
+ Speech.prototype.audio = function (url, callback) {
+     this._present(url, "The url provided to Speech#audio(..) was null or undefined.");
+     if(callback){
+       this._isFunction(callback, "callback");
+       var audioBuilder = new Speech();
+       callback(audioBuilder);
+       this._elements.push("<audio src='" + url + "'>" + audioBuilder.ssml(true) + "</audio>");
+     }else{
+       this._elements.push("<audio src='" + url + "'/>");
+     }
+     return this;
+ };
+
 
 /**
  * Creates and inserts a say-as tag.
@@ -282,6 +293,18 @@ Speech.prototype._notEmpty = function (word, msg) {
     this._present(word, msg);
     if (word.length === 0) {
         throw msg;
+    }
+};
+
+/**
+ * Ensures 'fnc' is a function.
+ * @param fnc the variable to check if it's a function.
+ * @param name the name of the parameter used in the error message.
+ */
+Speech.prototype._isFunction = function (fnc, name) {
+    var fncType = typeof(fnc);
+    if(fncType !== "function"){
+        throw new Error(name + " was not a function. received: " + fncType);
     }
 };
 

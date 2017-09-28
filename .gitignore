@@ -2,3 +2,4 @@
 .DS_STORE
 *.log
 *.zip
+node_modules/

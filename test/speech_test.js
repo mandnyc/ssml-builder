@@ -128,9 +128,26 @@ describe('Speech', function () {
 
         describe('audio', function () {
 
-            it('should build a audio tag', function () {
-                speech.audio("http://www.audio.com/sound.mp3");
-                assert.equal(speech.ssml(), "<speak><audio src='http://www.audio.com/sound.mp3'/></speak>");
+            describe('positive', function () {
+                it('should build a audio tag', function () {
+                    speech.audio("http://www.audio.com/sound.mp3");
+                    assert.equal(speech.ssml(), "<speak><audio src='http://www.audio.com/sound.mp3'/></speak>");
+                });
+
+                it('should build a audio tag with nested SSML', function () {
+                    speech.audio("http://www.audio.com/sound.mp3", function(builder){
+                        builder.say("wow");
+                    });
+                    assert.equal(speech.ssml(), "<speak><audio src='http://www.audio.com/sound.mp3'>wow</audio></speak>");
+                });
+            });
+
+            describe('negative', function () {
+                it('should throw an error for a string callback', function () {
+                    assert.throws(function () {
+                        speech.audio("http://www.audio.com/sound.mp3", "callback");
+                    }, "callback was not a function. received: string");
+                });
             });
 
         });
@@ -294,7 +311,7 @@ describe('Speech', function () {
             });
             assert.equal(speech.ssml(), "<speak><say-as interpret-as='address' format='us-state'>CO</say-as></speak>");
         });
-        
+
         it('should throw an exception because of invalid interpret', function () {
             assert.throws(function () {
                 speech.sayAs({
