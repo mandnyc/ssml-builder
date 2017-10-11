@@ -433,6 +433,19 @@ Speech.prototype.sub = function (alias, word) {
 };
 
 /**
+ * This method lets the user provide a saying that won't have ssml tags escaped.  Use this if you want to pass an ssml string directly 
+ * @param saying
+ * If quotes are needed in the string, use double quotes within single quotes or template literal strings
+ * @returns {Speech}
+ */
+Speech.prototype.sayWithSSML = function (saying) {
+    this._present(saying, "The saying provided to Speech#sayWithSSML(..) was null or undefined.");
+    this._elements.push(saying);
+    return this;
+}
+
+
+/**
  * This method validates if the value exists in the list of values
  * @param value
  * @param listOfValues

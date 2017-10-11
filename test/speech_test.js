@@ -166,6 +166,13 @@ describe('Speech', function () {
 
         });
 
+        describe('sayWithSSML', function() {
+            it('should push strings with ssml tags in them into the speech object', function() {
+                speech.sayWithSSML('we should all <w role="amazon:VB">read</w> more')
+                assert.equal(speech.ssml(), '<speak>we should all <w role="amazon:VB">read</w> more</speak>')
+            })
+        });
+
         describe('spellSlowly', function () {
 
             it('should build a spell slowly tag', function () {
