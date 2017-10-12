@@ -93,17 +93,17 @@ describe('Speech', function () {
 
             describe('positive', function () {
 
-                it('should generate the tag with valid strength', function (){
+                it('should generate the tag with valid strength', function () {
                     speech.pauseByStrength("x-weak");
                     assert.equal(speech.ssml(), "<speak><break strength='x-weak'/></speak>");
                 });
 
-                it('should generate the tag with valid strength case sensitive', function (){
+                it('should generate the tag with valid strength case sensitive', function () {
                     speech.pauseByStrength("X-WEAK");
                     assert.equal(speech.ssml(), "<speak><break strength='x-weak'/></speak>");
                 });
 
-                it('should generate the tag with valid strength case sensitive and extra space', function (){
+                it('should generate the tag with valid strength case sensitive and extra space', function () {
                     speech.pauseByStrength("X-WEAK  ");
                     assert.equal(speech.ssml(), "<speak><break strength='x-weak'/></speak>");
                 });
@@ -111,13 +111,13 @@ describe('Speech', function () {
 
             describe('negative', function () {
 
-                it('should throw an exception because of invalid strength', function (){
+                it('should throw an exception because of invalid strength', function () {
                     assert.throws(function () {
                         speech.pauseByStrength('banana');
                     }, "The strength provided to Speech#pauseByStrength(..) was not valid. Received strength: banana");
                 });
 
-                it('should throw an exception because of missing strength', function (){
+                it('should throw an exception because of missing strength', function () {
                     assert.throws(function () {
                         speech.pauseByStrength(null);
                     }, "The strength provided to Speech#pauseByStrength(..) was null or undefined");
@@ -135,7 +135,7 @@ describe('Speech', function () {
                 });
 
                 it('should build a audio tag with nested SSML', function () {
-                    speech.audio("http://www.audio.com/sound.mp3", function(builder){
+                    speech.audio("http://www.audio.com/sound.mp3", function (builder) {
                         builder.say("wow");
                     });
                     assert.equal(speech.ssml(), "<speak><audio src='http://www.audio.com/sound.mp3'>wow</audio></speak>");
@@ -166,11 +166,23 @@ describe('Speech', function () {
 
         });
 
-        describe('sayWithSSML', function() {
-            it('should push strings with ssml tags in them into the speech object', function() {
-                speech.sayWithSSML('we should all <w role="amazon:VB">read</w> more')
-                assert.equal(speech.ssml(), '<speak>we should all <w role="amazon:VB">read</w> more</speak>')
-            })
+        describe('sayWithSSML', function () {
+
+            describe('positive', function () {
+                it('should push the raw ssml string into the speech object', function () {
+                    speech.sayWithSSML('we should all <w role="amazon:VB">read</w> more');
+                    assert.equal(speech.ssml(), '<speak>we should all <w role="amazon:VB">read</w> more</speak>');
+                });
+            });
+
+            describe('negative', function () {
+                it('should throw an error for missing saying', function () {
+                    assert.throws(function () {
+                        speech.sayWithSSML();
+                    }, "The saying provided to Speech#sayWithSSML(..) was null or undefined.");
+                });
+            });
+
         });
 
         describe('spellSlowly', function () {
