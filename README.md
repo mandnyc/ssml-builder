@@ -38,6 +38,7 @@ npm install ssml-builder --save
       * address
       * interjection
       * expletive
+  * sub
   * w
       * ivona:VB: Interpret the word as a verb (present simple).
       * ivona:VBD: Interpret the word as a past participle.
@@ -107,4 +108,86 @@ speech.sayAs({
               interpret: "telephone"
             });
 var ssml = speech.ssml();
+```
+
+## Tag Examples
+
+#### [amazon:effect](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#amazon-effect)
+```javascript
+speech.whisper('I can see you when you are sleeping');
+```
+
+#### [audio](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#audio) 
+```javascript
+speech.audio('https://carfu.com/audio/carfu-welcome.mp3');
+```
+
+#### [break](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#break)
+```javascript
+speech.pause('500ms');
+speech.say('you hear this after a 500 millisecond pause');
+speech.pause('2s');
+speech.say('you heard this after a 2 second pause');
+```
+
+#### [emphasis](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#emphasis)
+```javascript
+speech.emphasis('strong', 'phrase will be strong');
+speech.emphasis('moderate', 'phrase will be moderate');
+speech.emphasis('reduced', 'phrase will be reduced');
+```
+
+#### [prosody](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#prosody)
+```javascript
+speech.prosody({rate: 'slow'}, 'say slow');
+speech.prosody({rate: 'fast'}, 'say fast');
+speech.prosody({rate: '+120%'}, 'increase the rate of speech by 20%');
+speech.prosody({rate: '35%'}, 'decrease the rate of speech by 35%');
+speech.prosody({pitch: 'medium'}, 'set pitch to medium');
+speech.prosody({pitch: 'x-high'}, 'set pitch to extra high');
+speech.prosody({pitch: '+20%'}, 'increase the pitch by 20%');
+speech.prosody({pitch: '-10%'}, 'decrease the pitch by 10%');
+speech.prosody({volume: 'soft'}, 'set volume to soft');
+speech.prosody({volume: 'loud'}, 'set volume to loud');
+speech.prosody({volume: '+2db'}, 'increase volume by 2db');
+speech.prosody({volume: '-3db'}, 'decrease volume by 3db');
+```
+
+#### [p](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#p)
+```javascript
+speech.paragraph('phrase will be said with extra strong breaks before and after itself');
+```
+
+#### [s](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#s)
+```javascript
+speech.sentence('phrase will be said with strong breaks before and after itself');
+```
+
+#### [phoneme](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#phoneme)
+```javascript
+speech.phoneme('ipa', "pɪˈkɑːn", 'pecan');
+speech.phoneme('x-sampa', "fr\oU.z@n", 'frozen');
+```
+
+#### [speak](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#speak)
+```javascript
+speech.say('this will be said');
+```
+
+#### [say-as](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#say-as)
+```javascript
+speech.sayAs({word: '12345', interpret: 'digits'});
+speech.sayAs({word: 'usa', interpret: 'characters'});
+speech.sayAs({word: '5553329939', interpret: 'telephone'});
+```
+
+#### [sub](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#sub)
+```javascript
+speech.sub('magnesium', 'Mg');
+```
+
+#### [w](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#w)
+```javascript
+speech.partOfSpeech({word: 'record', role: 'amazon:VB'});
+speech.partOfSpeech({word: 'record', role: 'amazon:NN'});
 ```
