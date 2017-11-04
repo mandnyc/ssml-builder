@@ -53,12 +53,12 @@ npm install ssml-builder --save
 var Speech = require('ssml-builder');
 
 var speech = new Speech();
-speech.say('Hello');
-speech.pause('1s');
-speech.say('fellow Alexa developers');
-speech.pause('500ms');
-speech.say('Testing phone numbers');
-speech.sayAs({
+speech.say('Hello')
+      .pause('1s')
+      .say('fellow Alexa developers')
+      .pause('500ms')
+      .say('Testing phone numbers')
+      .sayAs({
               word: "+1-377-777-1888",
               interpret: "telephone"
             });
@@ -77,9 +77,9 @@ this.emit(':tell', speechOutput);
 var Speech = require('ssml-builder');
 
 var speech = new Speech();
-speech.say('Hello');
-speech.pause('1s');
-speech.say('fellow Alexa developers');
+speech.say('Hello')
+      .pause('1s')
+      .say('fellow Alexa developers');
 var speechOutput = speech.toObject();
 response.tell(speechOutput);
 ```
@@ -98,12 +98,12 @@ When using Amazon specific tags, like whisper, you will need to import and use t
 var AmazonSpeech = require('ssml-builder/amazon_speech');
 
 var speech = new AmazonSpeech();
-speech.say('Hello');
-speech.pause('1s');
-speech.whisper('I can see you when you are sleeping');
-speech.pause('500ms');
-speech.say('Is your phone number still');
-speech.sayAs({
+speech.say('Hello')
+      .pause('1s')
+      .whisper('I can see you when you are sleeping')
+      .pause('500ms')
+      .say('Is your phone number still')
+      .sayAs({
               word: "+1-377-777-1888",
               interpret: "telephone"
             });
@@ -124,10 +124,10 @@ speech.audio('https://carfu.com/audio/carfu-welcome.mp3');
 
 #### [break](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#break)
 ```javascript
-speech.pause('500ms');
-speech.say('you hear this after a 500 millisecond pause');
-speech.pause('2s');
-speech.say('you heard this after a 2 second pause');
+speech.pause('500ms')
+      .say('you hear this after a 500 millisecond pause')
+      .pause('2s')
+      .say('you heard this after a 2 second pause');
 ```
 
 #### [emphasis](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#emphasis)
@@ -141,7 +141,7 @@ speech.emphasis('reduced', 'phrase will be reduced');
 ```javascript
 speech.prosody({rate: 'slow'}, 'say slow');
 speech.prosody({rate: 'fast'}, 'say fast');
-speech.prosody({rate: '+120%'}, 'increase the rate of speech by 20%');
+speech.prosody({rate: '120%'}, 'increase the rate of speech by 20%');
 speech.prosody({rate: '35%'}, 'decrease the rate of speech by 35%');
 speech.prosody({pitch: 'medium'}, 'set pitch to medium');
 speech.prosody({pitch: 'x-high'}, 'set pitch to extra high');
