@@ -1188,4 +1188,61 @@ describe('Speech', function () {
 
     });
 
+    describe('sayRandomChoice', function () {
+
+        beforeEach(function () {
+            speech = new Speech();
+        });
+
+        describe('positive', function () {
+
+            it('should give you a random item', function () {
+                var choices = ['apple', 'peach'];
+                var results = [];
+                for (var i = 0; i < 1000; i++) {
+                    var speech = new Speech();
+                    var choice = speech.sayRandomChoice(choices).ssml();
+                    if (!results.includes(choice)) {
+                        results.push(choice);
+                    }
+                }
+
+                var count = results.length;
+                assert.isTrue(count > 1, "expected to find more than one element but only got 1");
+            });
+
+            it('should give you a random item', function () {
+                var choices = ['apple'];
+                var results = [];
+                for (var i = 0; i < 100; i++) {
+                    var speech = new Speech();
+                    var choice = speech.sayRandomChoice(choices).ssml();
+                    if (!results.includes(choice)) {
+                        results.push(choice);
+                    }
+                }
+
+                var count = results.length;
+                assert.isTrue(count === 1, "expected to find one element in the results, but got " + count);
+            });
+
+        });
+
+        describe('negative', function () {
+
+            it('should fail when a string is provided instead of an array', function () {
+                assert.throws(function () {
+                    speech.sayRandomChoice('apple');
+                }, 'The words must be an array');
+            });
+
+            it('should fail when an object is provided instead of an array', function () {
+                assert.throws(function () {
+                    speech.sayRandomChoice(new Speech());
+                }, 'The words must be an array');
+            });
+        });
+
+    });
+
 });

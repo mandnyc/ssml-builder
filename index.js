@@ -1,5 +1,7 @@
 'use strict';
 
+var Helper = require('./helper');
+    
 /**
  * This class helps simplify using SSML (Speech Synthesis Markup Language).
  * This only supports a subset of SSML tags which the Alexa device supports.
@@ -16,6 +18,7 @@
  */
 function Speech() {
     this._elements = [];
+    this._helper = new Helper();
 }
 
 /**
@@ -91,18 +94,18 @@ Speech.prototype.pauseByStrength = function (strength) {
  *                   Speech.
  * @returns {Speech}
  */
- Speech.prototype.audio = function (url, callback) {
-     this._present(url, "The url provided to Speech#audio(..) was null or undefined.");
-     if(callback){
-       this._isFunction(callback, "callback");
-       var audioBuilder = new Speech();
-       callback(audioBuilder);
-       this._elements.push("<audio src='" + url + "'>" + audioBuilder.ssml(true) + "</audio>");
-     }else{
-       this._elements.push("<audio src='" + url + "'/>");
-     }
-     return this;
- };
+Speech.prototype.audio = function (url, callback) {
+    this._present(url, "The url provided to Speech#audio(..) was null or undefined.");
+    if (callback) {
+        this._isFunction(callback, "callback");
+        var audioBuilder = new Speech();
+        callback(audioBuilder);
+        this._elements.push("<audio src='" + url + "'>" + audioBuilder.ssml(true) + "</audio>");
+    } else {
+        this._elements.push("<audio src='" + url + "'/>");
+    }
+    return this;
+};
 
 
 /**
@@ -303,7 +306,7 @@ Speech.prototype._notEmpty = function (word, msg) {
  */
 Speech.prototype._isFunction = function (fnc, name) {
     var fncType = typeof(fnc);
-    if(fncType !== "function"){
+    if (fncType !== "function") {
         throw new Error(name + " was not a function. received: " + fncType);
     }
 };
@@ -435,7 +438,7 @@ Speech.prototype.sub = function (alias, word) {
 /**
  * This method lets the user add raw SSML into the speech object without escaping the special characters.
  * For example, if you passed in "<speak>Hi</speak>", it won't escape the less than or greater than tags.
- * @param saying raw string to be appended  
+ * @param saying raw string to be appended
  * @returns {Speech}
  */
 Speech.prototype.sayWithSSML = function (saying) {
@@ -444,6 +447,16 @@ Speech.prototype.sayWithSSML = function (saying) {
     return this;
 };
 
+/**
+ * This method will select a random word or phrase from the choices provided and then say it to the user
+ * @param choices - an array of phrases or words
+ * @returns {Speech}
+ */
+Speech.prototype.sayRandomChoice = function (choices) {
+    var choice = this._helper.chooseRandomWord(choices);
+    this._elements.push(this._escape(choice));
+    return this;
+};
 
 /**
  * This method validates if the value exists in the list of values
