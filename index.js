@@ -471,4 +471,25 @@ function isInList(value, listOfValues, msg) {
     }
 }
 
+/**
+ * This method returns a random array element from a list of values
+ * @param list is an array such as ['apple','orange','strawberry'] with at least one element
+ * @returns {Speech}
+ */
+Speech.prototype.randomize = function (list) {
+    if( Object.prototype.toString.call( list ) != '[object Array]' ) {
+        throw new Error("The argument passed to randomize() was not an array.");
+    } else {
+        if (list.length == 0) {
+            throw new Error("The list array passed to randomize() was empty.");
+        } else
+        {
+            var element = list[ Math.floor(Math.random() * list.length)];  // select a random array element
+            this._elements.push(element);
+            return this;
+        }
+    }
+
+};
+
 module.exports = Speech;
