@@ -270,11 +270,11 @@ Speech.prototype.phoneme = function (alphabet, ph, word) {
  */
 Speech.prototype._escape = function (word) {
     if (typeof(word) === "string") {
-        word = word.replace(/&/g, 'and');
-        word = word.replace(/</g, '');
-        word = word.replace(/>/g, '');
-        word = word.replace(/"/g, '');
-        word = word.replace(/'/g, '');
+        word = word.replace(/&/g, '&amp;');
+        word = word.replace(/</g, '&lt;');
+        word = word.replace(/>/g, '&gt;');
+        word = word.replace(/"/g, '&quot;');
+        word = word.replace(/'/g, '&apos;');
         return word;
     }
     if (typeof(word) === "number") {

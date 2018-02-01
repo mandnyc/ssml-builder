@@ -22,7 +22,7 @@ describe('AmazonSpeech', function () {
 
             it('should create the tag with special characters', function () {
                 amazon_speech.whisper("good night & sweet dreams");
-                assert.equal(amazon_speech.ssml(), "<speak><amazon:effect name=\"whispered\">good night and sweet dreams</amazon:effect></speak>")
+                assert.equal(amazon_speech.ssml(), "<speak><amazon:effect name=\"whispered\">good night &amp; sweet dreams</amazon:effect></speak>")
             });
         });
 
