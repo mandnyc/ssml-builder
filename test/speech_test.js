@@ -22,12 +22,12 @@ describe('Speech', function () {
 
             it('say should escape characters', function () {
                 speech.say("<star's>");
-                assert.equal(speech.ssml(), "<speak>stars</speak>");
+                assert.equal(speech.ssml(), "<speak>&lt;star&apos;s&gt;</speak>");
             });
 
             it('say should escape characters', function () {
                 speech.say('<star"s>');
-                assert.equal(speech.ssml(), "<speak>stars</speak>");
+                assert.equal(speech.ssml(), "<speak>&lt;star&quot;s&gt;</speak>");
             });
 
             it('should generate a saying tag', function () {
@@ -46,7 +46,7 @@ describe('Speech', function () {
 
             it('paragraph should escape characters', function () {
                 speech.paragraph("<h'i>");
-                assert.equal(speech.ssml(), "<speak><p>hi</p></speak>");
+                assert.equal(speech.ssml(), "<speak><p>&lt;h&apos;i&gt;</p></speak>");
             });
 
         });
@@ -60,7 +60,7 @@ describe('Speech', function () {
 
             it('should build a sentence tag escape characters', function () {
                 speech.sentence("<h'i>");
-                assert.equal(speech.ssml(), "<speak><s>hi</s></speak>");
+                assert.equal(speech.ssml(), "<speak><s>&lt;h&apos;i&gt;</s></speak>");
             });
 
         });
@@ -161,7 +161,7 @@ describe('Speech', function () {
 
             it('spell should escape characters', function () {
                 speech.spell("<mandy's>");
-                assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>mandys</say-as></speak>");
+                assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>&lt;mandy&apos;s&gt;</say-as></speak>");
             });
 
         });
@@ -194,7 +194,7 @@ describe('Speech', function () {
 
             it('spell slowly should escape characters', function () {
                 speech.spellSlowly("<mandy's>", "500ms");
-                assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'></say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>m</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>a</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>n</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>d</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>y</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'></say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>s</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'></say-as> <break time='500ms'/></speak>");
+                assert.equal(speech.ssml(), "<speak><say-as interpret-as='spell-out'>&lt;</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>m</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>a</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>n</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>d</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>y</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>&apos;</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>s</say-as> <break time='500ms'/> <say-as interpret-as='spell-out'>&gt;</say-as> <break time='500ms'/></speak>");
             });
 
         });
@@ -723,7 +723,7 @@ describe('Speech', function () {
 
         it('should escape all 5 characters', function () {
             speech.say("<Cat's> & <Dog's>");
-            assert.equal(speech.ssml(false), "<speak>Cats and Dogs</speak>");
+            assert.equal(speech.ssml(false), "<speak>&lt;Cat&apos;s&gt; &amp; &lt;Dog&apos;s&gt;</speak>");
         });
     });
 
@@ -742,7 +742,7 @@ describe('Speech', function () {
 
             it('should generate the tag with the level and word that include special characters', function () {
                 speech.emphasis('strong', 'really like & hate');
-                assert.equal(speech.ssml(), "<speak><emphasis level='strong'>really like and hate</emphasis></speak>");
+                assert.equal(speech.ssml(), "<speak><emphasis level='strong'>really like &amp; hate</emphasis></speak>");
             });
         });
 
@@ -811,7 +811,7 @@ describe('Speech', function () {
                     var validRates = ['x-slow', 'slow', 'medium', 'fast', 'x-fast'];
                     for (var i = 0; i < validRates.length; i++) {
                         speech.prosody({rate: validRates[i]}, 'really like & hate');
-                        assert.equal(speech.ssml(), "<speak><prosody rate='" + validRates[i] + "'>really like and hate</prosody></speak>");
+                        assert.equal(speech.ssml(), "<speak><prosody rate='" + validRates[i] + "'>really like &amp; hate</prosody></speak>");
                         speech = new Speech();
                     }
                 });
@@ -910,7 +910,7 @@ describe('Speech', function () {
                     var validPitches = ['x-low', 'low', 'medium', 'high', 'x-high'];
                     for (var i = 0; i < validPitches.length; i++) {
                         speech.prosody({pitch: validPitches[i]}, 'really like & hate');
-                        assert.equal(speech.ssml(), "<speak><prosody pitch='" + validPitches[i] + "'>really like and hate</prosody></speak>");
+                        assert.equal(speech.ssml(), "<speak><prosody pitch='" + validPitches[i] + "'>really like &amp; hate</prosody></speak>");
                         speech = new Speech();
                     }
                 });
@@ -1010,7 +1010,7 @@ describe('Speech', function () {
                     var validVolumes = ['silent', 'x-soft', 'soft', 'medium', 'loud', 'x-loud'];
                     for (var i = 0; i < validVolumes.length; i++) {
                         speech.prosody({volume: validVolumes[i]}, 'really like & hate');
-                        assert.equal(speech.ssml(), "<speak><prosody volume='" + validVolumes[i] + "'>really like and hate</prosody></speak>");
+                        assert.equal(speech.ssml(), "<speak><prosody volume='" + validVolumes[i] + "'>really like &amp; hate</prosody></speak>");
                         speech = new Speech();
                     }
                 });
@@ -1092,25 +1092,25 @@ describe('Speech', function () {
 
                 it('should generate a prosody tag with the rate and pitch attributes and word that include special characters', function () {
                     speech.prosody({rate: "x-slow", pitch: "x-high"}, 'really like & hate');
-                    assert.equal(speech.ssml(), "<speak><prosody rate='x-slow' " + "pitch='x-high'>" + "really like and hate</prosody></speak>");
+                    assert.equal(speech.ssml(), "<speak><prosody rate='x-slow' " + "pitch='x-high'>" + "really like &amp; hate</prosody></speak>");
                     speech = new Speech();
                 });
 
                 it('should generate a prosody tag with the rate and pitch attributes and word case sensitive', function () {
                     speech.prosody({rate: "x-SLOW", pitch: "x-HIGH"}, 'really like & hate');
-                    assert.equal(speech.ssml(), "<speak><prosody rate='x-slow' " + "pitch='x-high'>" + "really like and hate</prosody></speak>");
+                    assert.equal(speech.ssml(), "<speak><prosody rate='x-slow' " + "pitch='x-high'>" + "really like &amp; hate</prosody></speak>");
                     speech = new Speech();
                 });
 
                 it('should generate a prosody tag with the rate and pitch attributes and word case sensitive and extra space', function () {
                     speech.prosody({rate: "x-SLOW  ", pitch: "x-HIGH  "}, 'really like & hate');
-                    assert.equal(speech.ssml(), "<speak><prosody rate='x-slow' " + "pitch='x-high'>" + "really like and hate</prosody></speak>");
+                    assert.equal(speech.ssml(), "<speak><prosody rate='x-slow' " + "pitch='x-high'>" + "really like &amp; hate</prosody></speak>");
                     speech = new Speech();
                 });
 
                 it('should generate a prosody tag with the rate, pitch attributes with negative %, and volume attribute with positive dB', function () {
                     speech.prosody({rate: "30%", pitch: '-40.5%', volume: '+6dB'}, 'really like & hate');
-                    assert.equal(speech.ssml(), "<speak><prosody rate='30%' " + "pitch='-40.5%' " + "volume='+6dB'>" + "really like and hate</prosody></speak>");
+                    assert.equal(speech.ssml(), "<speak><prosody rate='30%' " + "pitch='-40.5%' " + "volume='+6dB'>" + "really like &amp; hate</prosody></speak>");
                     speech = new Speech();
                 });
 
@@ -1149,11 +1149,11 @@ describe('Speech', function () {
 
             it('should generate a sub tag special characters', function () {
                 speech.sub('magnesium', 'Mg &');
-                assert.equal(speech.ssml(), "<speak><sub alias='magnesium'>Mg and</sub></speak>");
+                assert.equal(speech.ssml(), "<speak><sub alias='magnesium'>Mg &amp;</sub></speak>");
             });
             it('should generate a sub tag special characters', function () {
                 speech.sub('mine', "It's mine");
-                assert.equal(speech.ssml(), "<speak><sub alias='mine'>Its mine</sub></speak>");
+                assert.equal(speech.ssml(), "<speak><sub alias='mine'>It&apos;s mine</sub></speak>");
             });
 
         });
