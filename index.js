@@ -463,7 +463,7 @@ Speech.prototype._clean = function (speech) {
         throw new Error('received invalid type ' + typeof (speech));
     }
 
-    return speech.replace(/(?:<)(\\)(?: \/)/, '</').replace(/&/g, '&amp;')
+    return speech.replace(/(?:<)(\\)(?: \/)/, '</')
 }
 
 /**
