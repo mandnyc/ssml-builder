@@ -1,7 +1,7 @@
 'use strict';
 
 var Helper = require('./helper');
-    
+
 /**
  * This class helps simplify using SSML (Speech Synthesis Markup Language).
  * This only supports a subset of SSML tags which the Alexa device supports.
@@ -154,9 +154,9 @@ Speech.prototype.toObject = function () {
  */
 Speech.prototype.ssml = function (excludeSpeakTag) {
     if (excludeSpeakTag) {
-        return this._elements.join(" ");
+        return this._clean(this._elements.join(" "));
     }
-    return "<speak>" + this._elements.join(" ") + "</speak>";
+    return "<speak>" + this._clean(this._elements.join(" ")) + "</speak>";
 };
 
 /**
@@ -457,6 +457,14 @@ Speech.prototype.sayRandomChoice = function (choices) {
     this._elements.push(this._escape(choice));
     return this;
 };
+
+Speech.prototype._clean = function (speech) {
+    if (typeof speech !== 'string' || speech === undefined || speech === null) {
+        throw new Error('received invalid type ' + typeof (speech));
+    }
+
+    return speech.replace(/(?:<)(\\)(?: \/)/, '</').replace(/&/g, '&amp;')
+}
 
 /**
  * This method validates if the value exists in the list of values
