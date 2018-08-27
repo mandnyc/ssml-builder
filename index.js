@@ -443,7 +443,7 @@ Speech.prototype.sub = function (alias, word) {
  */
 Speech.prototype.sayWithSSML = function (saying) {
     this._present(saying, "The saying provided to Speech#sayWithSSML(..) was null or undefined.");
-    this._elements.push(saying);
+    this._elements.push(saying.replace(/&/g, '&amp;'));
     return this;
 };
 
