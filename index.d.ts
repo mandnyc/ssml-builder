@@ -19,35 +19,35 @@ export default class Speech {
    * @param saying The raw text to insert into the speak tag.
    * @returns {Speech}
    */
-  say(saying: string): void
+  say(saying: string): Speech
   /**
    * Creates and inserts a paragraph tag.
    * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#p
    * @param paragraph The paragraph of text to insert.
    * @returns {Speech}
    */
-  paragraph(paragraph: string): void
+  paragraph(paragraph: string): Speech
   /**
    * Creates and inserts a sentence tag.
    * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#s
    * @param saying The sentence to insert.
    * @returns {Speech}
    */
-  sentence(saying: string): void
+  sentence(saying: string): Speech
   /**
    * Creates and inserts a break tag. This method will also validate the break time conforms to the restrictions to Amazon Alexa.
    * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#break
    * @param duration the duration represented by a number + either 's' for second or 'ms' for milliseconds.
    * @returns {Speech}
    */
-  pause(duration: string): void
+  pause(duration: string): Speech
   /**
    * Creates a break tag that will pause the audio based upon the strength provided.
    * For more information, please see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#break
    * @param strength such as none, x-weak, weak, medium, strong, x-strong
    * @returns {Speech}
    */
-  pauseByStrength(strength: string): void
+  pauseByStrength(strength: string): Speech
   /**
    * Creates and inserts an audio tag.
    * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#audio
@@ -57,14 +57,14 @@ export default class Speech {
    *                   Speech.
    * @returns {Speech}
    */
-  audio(url: string, callback?: Speech): void
+  audio(url: string, callback?: Speech): Speech
   /**
    * Creates and inserts a say-as tag.
    * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
    * @param word word or text to insert
    * @returns {Speech}
    */
-  spell(word: string): void
+  spell(word: string): Speech
   /**
    * Creates and inserts a say-as tag.
    * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
@@ -72,7 +72,7 @@ export default class Speech {
    * @param delay the delay represented by a number + either 's' for second or 'ms' for milliseconds.
    * @returns {Speech}
    */
-  spellSlowly(word: string, delay: string): void
+  spellSlowly(word: string, delay: string): Speech
   /**
    * This constructs an object that the AlexaSkill.js accepts to send to the user.
    * @returns {{type: string, speech}}
@@ -94,7 +94,7 @@ export default class Speech {
    * word being the text to insert, interpret represents the attribute interpret-as and format represents the attribute format
    * @returns {Speech}
    */
-  sayAs(options: SayAsOptions): void
+  sayAs(options: SayAsOptions): Speech
   /**
    * Creates and inserts a w tag that customizes the pronunciation of words by specifying the word’s part of speech
    * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#w
@@ -102,7 +102,7 @@ export default class Speech {
    * word being the text to insert and role represents the part of speech
    * @returns {Speech}
    */
-  partOfSpeech(options: Options): void
+  partOfSpeech(options: Options): Speech
   /**
    * Creates and inserts a phoneme tag.
    * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#phoneme
@@ -112,7 +112,7 @@ export default class Speech {
    * word being the text to insert
    * @returns {Speech}
    */
-  phoneme(alphabet: string, ph: string, word: string): void
+  phoneme(alphabet: string, ph: string, word: string): Speech
   /**
    * Creates and inserts a emphasis tag.
    * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#emphasis
@@ -120,34 +120,34 @@ export default class Speech {
    * @param word word or text to insert
    * @returns {Speech}
    */
-  emphasis(level: EmphasisLevels, word: string): void
+  emphasis(level: EmphasisLevels, word: string): Speech
   /**
    * √ TODO: Handle rate minimum 20%
    * @param attributes
    * @param word
    * @returns {Speech}
    */
-  prosody(attributes: ProsodyAttributes, word: string): void
+  prosody(attributes: ProsodyAttributes, word: string): Speech
   /**
    * This method lets the user provide an alias and pronounce the specified word or pharse as a different word or phrase
    * @param alias is the word that you want to pronounce instead of the original word
    * @param word
    * @returns {Speech}
    */
-  sub(alias: string, word: string): void
+  sub(alias: string, word: string): Speech
   /**
    * This method lets the user add raw SSML into the speech object without escaping the special characters.
    * For example, if you passed in "<speak>Hi</speak>", it won't escape the less than or greater than tags.
    * @param saying raw string to be appended
    * @returns {Speech}
    */
-  sayWithSSML(saying: string): void
+  sayWithSSML(saying: string): Speech
   /**
    * This method will select a random word or phrase from the choices provided and then say it to the user
    * @param choices - an array of phrases or words
    * @returns {Speech}
    */
-  sayRandomChoice(choices: Array<string>): void
+  sayRandomChoice(choices: Array<string>): Speech
   /**
    * Validates that the provided value is not null or undefined. It will throw an exception if it's either.
    * @param value The value to check.
