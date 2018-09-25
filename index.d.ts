@@ -12,7 +12,7 @@
  * interpret-as="cardinal|ordinal|digits|fraction|unit|date|time|telephone|address" + format="mdy|dmy|ymd|md|dm|ym|my|d|m|y" All done
  * @constructor
  */
-export default class Speech {
+declare class Speech {
   constructor()
   /**
    * This appends raw text into the <speak/> tag.
@@ -189,6 +189,7 @@ export default class Speech {
   private _isFunction(fnc, name): void
   private _clean(speech): void
 }
+export default Speech
 /**
  * This helper function consolidates the validation checks for rate,pitch and volume. It will first
  * check to see if the attribute is present and whether it's one of the following conditions:
