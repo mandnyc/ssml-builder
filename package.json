@@ -3,7 +3,6 @@
   "version": "0.4.3",
   "description": "This package creates Speech Synthesis Markup Language (SSML) using the builder pattern.",
   "main": "index.js",
-  "types": "index.d.ts",
   "directories": {
     "test": "test"
   },
