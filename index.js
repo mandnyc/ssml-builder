@@ -1,7 +1,7 @@
 'use strict';
 
 var Helper = require('./helper');
-    
+
 /**
  * This class helps simplify using SSML (Speech Synthesis Markup Language).
  * This only supports a subset of SSML tags which the Alexa device supports.
@@ -107,7 +107,6 @@ Speech.prototype.audio = function (url, callback) {
     return this;
 };
 
-
 /**
  * Creates and inserts a say-as tag.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
@@ -123,7 +122,8 @@ Speech.prototype.spell = function (word) {
 /**
  * Creates and inserts a say-as tag.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
- * @param word word or text to insert , delay the delay represented by a number + either 's' for second or 'ms' for milliseconds.
+ * @param word word or text to insert
+ * @param delay the delay represented by a number + either 's' for second or 'ms' for milliseconds.
  * @returns {Speech}
  */
 Speech.prototype.spellSlowly = function (word, delay) {
@@ -244,10 +244,10 @@ Speech.prototype.partOfSpeech = function (options) {
 /**
  * Creates and inserts a phoneme tag.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#phoneme
- * @param alphabet, ph, word
- * alphabet i.e "ipa"
- * ph i.e "pɪˈkɑːn"
- * word being the text to insert
+ * @param alphabet
+ * @param alphabet i.e "ipa"
+ * @param ph i.e "pɪˈkɑːn"
+ * @param word being the text to insert
  * @returns {Speech}
  */
 Speech.prototype.phoneme = function (alphabet, ph, word) {
@@ -303,6 +303,7 @@ Speech.prototype._notEmpty = function (word, msg) {
  * Ensures 'fnc' is a function.
  * @param fnc the variable to check if it's a function.
  * @param name the name of the parameter used in the error message.
+ * @private
  */
 Speech.prototype._isFunction = function (fnc, name) {
     var fncType = typeof(fnc);
@@ -380,7 +381,6 @@ Speech.prototype.prosody = function (attributes, word) {
     final += ">" + this._escape(word) + "</prosody>";
     this._elements.push(final);
     return this;
-
 };
 
 /**
