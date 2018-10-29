@@ -242,6 +242,23 @@ Speech.prototype.partOfSpeech = function (options) {
 };
 
 /**
+ * Creates and inserts a voice tag to select which Amazon Polly voice to use
+ * see https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html#voice
+ * @param options an object that has two properties: word and voice
+ * word being the text to insert and role represents the voice to use
+ * @returns {Speech}
+ */
+Speech.prototype.voice = function (options) {
+    this._present(options, "The object provided to Speech#voice(..) was invalid.");
+    this._present(options.word, "The word provided to Speech#voice(..) was null or undefined.");
+    var word = this._escape(options.word);
+    if (options.voice) {
+        this._elements.push("<voice name=\'" + options.voice + "'>" + word + "</voice>")
+    }
+    return this;
+};
+
+/**
  * Creates and inserts a phoneme tag.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#phoneme
  * @param alphabet, ph, word
