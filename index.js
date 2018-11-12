@@ -288,6 +288,27 @@ Speech.prototype._escape = function (word) {
 };
 
 /**
+ * This method escapes any special characters that will cause SSML to be invalid using
+ * with function sayWithSSML().
+ * @param word being the text to insert
+ * @returns {*}
+ * @private
+ */
+Speech.prototype._escapeWithSSML = function (word) {
+    if (typeof(word) === "string") {
+        word = word.replace(/&/g, '&amp;');
+        return word;
+    }
+    if (typeof(word) === "number") {
+        return word;
+    }
+    if (typeof(word) === "boolean") {
+        return word;
+    }
+    throw new Error('received invalid type ' + typeof(word));
+};
+
+/**
  * This method ensures the input passing in is not null, undefined or empty string. In the case that it is, an exception is thrown with the message provided.
  * @param word
  * @param msg
@@ -445,7 +466,7 @@ Speech.prototype.sub = function (alias, word) {
  */
 Speech.prototype.sayWithSSML = function (saying) {
     this._present(saying, "The saying provided to Speech#sayWithSSML(..) was null or undefined.");
-    this._elements.push(saying);
+    this._elements.push(this._escapeWithSSML(saying));
     return this;
 };
 
