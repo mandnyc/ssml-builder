@@ -14,4 +14,11 @@ AmazonSpeech.prototype.whisper = function (words, shouldEscape=true) {
     return this;
 };
 
+AmazonSpeech.prototype.voice = function(voiceName, words, shouldEscape=true) {
+    this._notEmpty(words, "The words provided to AmazonSpeech#voice(..) was '" + words + "'");
+    var escapedWords = shouldEscape ? this._escape(words) : words
+    this._elements.push("<voice name='" + voiceName + "'>" + escapedWords + "</voice>");
+    return this;
+};
+
 module.exports = AmazonSpeech;
