@@ -24,11 +24,12 @@ function Speech() {
 /**
  * This appends raw text into the <speak/> tag.
  * @param saying The raw text to insert into the speak tag.
+ * @param shouldEscape true if the raw text should be escaped, false otherwise (default=true)
  * @returns {Speech}
  */
-Speech.prototype.say = function (saying) {
+Speech.prototype.say = function (saying, shouldEscape = true) {
     this._present(saying, "The saying provided to Speech#saying(..) was null or undefined.");
-    this._elements.push(this._escape(saying));
+    this._elements.push(shouldEscape ? this._escape(saying) : saying);
     return this;
 };
 
@@ -36,11 +37,12 @@ Speech.prototype.say = function (saying) {
  * Creates and inserts a paragraph tag.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#p
  * @param paragraph The paragraph of text to insert.
+ * @param shouldEscape true if the raw text should be escaped, false otherwise (default=true)
  * @returns {Speech}
  */
-Speech.prototype.paragraph = function (paragraph) {
+Speech.prototype.paragraph = function (paragraph, shouldEscape = true) {
     this._present(paragraph, "The paragraph provided to Speech#paragraph(..) was null or undefined.");
-    this._elements.push("<p>" + this._escape(paragraph) + "</p>");
+    this._elements.push("<p>" + (shouldEscape ? this._escape(paragraph) : paragraph) + "</p>");
     return this;
 };
 
@@ -48,11 +50,12 @@ Speech.prototype.paragraph = function (paragraph) {
  * Creates and inserts a sentence tag.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#s
  * @param saying The sentence to insert.
+ * @param shouldEscape true if the raw text should be escaped, false otherwise (default=true)
  * @returns {Speech}
  */
-Speech.prototype.sentence = function (saying) {
+Speech.prototype.sentence = function (saying, shouldEscape = true) {
     this._present(saying, "The sentence provided to Speech#sentence(..) was null or undefined.");
-    this._elements.push("<s>" + this._escape(saying) + "</s>");
+    this._elements.push("<s>" + (shouldEscape ? this._escape(saying) : saying) + "</s>");
     return this;
 };
 
@@ -112,11 +115,12 @@ Speech.prototype.audio = function (url, callback) {
  * Creates and inserts a say-as tag.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
  * @param word word or text to insert
+ * @param shouldEscape true if the raw text should be escaped, false otherwise (default=true)
  * @returns {Speech}
  */
-Speech.prototype.spell = function (word) {
+Speech.prototype.spell = function (word, shouldEscape = true) {
     this._present(word, "The word provided to Speech#spell(..) was null or undefined.");
-    this._elements.push("<say-as interpret-as='spell-out'>" + this._escape(word) + "</say-as>");
+    this._elements.push("<say-as interpret-as='spell-out'>" + (shouldEscape ? this._escape(word) : word) + "</say-as>");
     return this;
 };
 
@@ -124,12 +128,14 @@ Speech.prototype.spell = function (word) {
  * Creates and inserts a say-as tag.
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#say-as
  * @param word word or text to insert , delay the delay represented by a number + either 's' for second or 'ms' for milliseconds.
+ * @param shouldEscape true if the raw text should be escaped, false otherwise (default=true)
  * @returns {Speech}
  */
-Speech.prototype.spellSlowly = function (word, delay) {
+Speech.prototype.spellSlowly = function (word, delay, shouldEscape = true) {
     this._present(word, "The word provided to Speech#spellSlowly(..) was null or undefined.");
     for (var i = 0; i < word.length; i++) {
-        this._elements.push("<say-as interpret-as='spell-out'>" + this._escape(word.charAt(i)) + "</say-as>");
+        const escapedWord = (shouldEscape ? this._escape(word) : word)
+        this._elements.push("<say-as interpret-as='spell-out'>" + escapedWord.charAt(i) + "</say-as>");
         this.pause(delay);
     }
     return this;
@@ -229,12 +235,13 @@ Speech.prototype.sayAs = function (options) {
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#w
  * @param options an object that has two properties: word and role
  * word being the text to insert and role represents the part of speech
+ * @param shouldEscape true if the raw text should be escaped, false otherwise (default=true)
  * @returns {Speech}
  */
-Speech.prototype.partOfSpeech = function (options) {
+Speech.prototype.partOfSpeech = function (options, shouldEscape = true) {
     this._present(options, "The object provided to Speech#partOfSpeech(..) was invalid.");
     this._present(options.word, "The word provided to Speech#partOfSpeech(..) was null or undefined.");
-    var word = this._escape(options.word);
+    var word = (shouldEscape ? this._escape(options.word) : options.word);
     if (options.role) {
         this._elements.push("<w role=\'" + options.role + "'>" + word + "</w>")
     }
@@ -246,15 +253,16 @@ Speech.prototype.partOfSpeech = function (options) {
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#phoneme
  * @param alphabet, ph, word
  * alphabet i.e "ipa"
- * ph i.e "pɪˈkɑːn"
- * word being the text to insert
+ * @param ph i.e "pɪˈkɑːn"
+ * @param word being the text to insert
+ * @param shouldEscape true if the raw text should be escaped, false otherwise (default=true)
  * @returns {Speech}
  */
-Speech.prototype.phoneme = function (alphabet, ph, word) {
+Speech.prototype.phoneme = function (alphabet, ph, word, shouldEscape = true) {
     this._present(alphabet, "The alphabet provided to Speech#phoneme(..) was null or undefined.");
     this._present(ph, "The ph provided to Speech#phoneme(..) was null or undefined.");
     this._present(word, "The word provided to Speech#phoneme(..) was null or undefined.");
-    var escapedWord = this._escape(word);
+    var escapedWord = shouldEscape ? this._escape(word) : word;
     if (ph.indexOf("'") !== -1) {
         ph = ph.replace(/'/g, '&apos;')
     }
@@ -316,9 +324,10 @@ Speech.prototype._isFunction = function (fnc, name) {
  * see https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/speech-synthesis-markup-language-ssml-reference#emphasis
  * @param level includes strong, moderate and reduced
  * @param word word or text to insert
+ * @param shouldEscape true if the raw text should be escaped, false otherwise (default=true)
  * @returns {Speech}
  */
-Speech.prototype.emphasis = function (level, word) {
+Speech.prototype.emphasis = function (level, word, shouldEscape = true) {
     this._present(level, "The level provided to Speech#emphasis(..) was null or undefined");
     this._present(word, "The word provided to Speech#emphasis(..) was null or undefined");
     var levels = ['strong', 'moderate', 'reduced'];
@@ -327,7 +336,7 @@ Speech.prototype.emphasis = function (level, word) {
     }
 
     this._notEmpty(word, "The word provided to Speech#emphasis(..) was empty");
-    this._elements.push("<emphasis level='" + level + "'>" + this._escape(word) + "</emphasis>");
+    this._elements.push("<emphasis level='" + level + "'>" + (shouldEscape ? this._escape(word) : word) + "</emphasis>");
     return this;
 };
 
@@ -335,9 +344,10 @@ Speech.prototype.emphasis = function (level, word) {
  * √ TODO: Handle rate minimum 20%
  * @param attributes
  * @param word
+ * @param shouldEscape true if the raw text should be escaped, false otherwise (default=true)
  * @returns {Speech}
  */
-Speech.prototype.prosody = function (attributes, word) {
+Speech.prototype.prosody = function (attributes, word, shouldEscape = true) {
     this._present(attributes, "The attributes provided to Speech#prosody(..) was null or undefined");
     this._present(word, "The word provided to Speech#prosody(..) was null or undefined");
     this._notEmpty(word, "The word provided to Speech#prosody(..) was empty");
@@ -377,7 +387,7 @@ Speech.prototype.prosody = function (attributes, word) {
         final += " volume='" + attributes.volume + "'";
     });
 
-    final += ">" + this._escape(word) + "</prosody>";
+    final += ">" + (shouldEscape ? this._escape(word) : word) + "</prosody>";
     this._elements.push(final);
     return this;
 
@@ -422,16 +432,17 @@ function checkRateRange(num) {
 /**
  * This method lets the user provide an alias and pronounce the specified word or pharse as a different word or phrase
  * @param alias is the word that you want to pronounce instead of the original word
- * @param word
+ * @param word the original word
+ * @param shouldEscape true if the raw text should be escaped, false otherwise (default=true)
  * @returns {Speech}
  */
-Speech.prototype.sub = function (alias, word) {
+Speech.prototype.sub = function (alias, word, shouldEscape=true) {
     this._present(alias, "The alias provided to Speech#sub(..) was null or undefined");
     this._notEmpty(alias, "The alias provided to Speech#sub(..) was empty");
     this._present(word, "The word provided to Speech#sub(..) was null or undefined");
     this._notEmpty(word, "The word provided to Speech#sub(..) was empty");
 
-    this._elements.push("<sub alias='" + alias + "'>" + this._escape(word) + "</sub>");
+    this._elements.push("<sub alias='" + alias + "'>" + (shouldEscape ? this._escape(word) : word) + "</sub>");
     return this;
 };
 
@@ -450,11 +461,12 @@ Speech.prototype.sayWithSSML = function (saying) {
 /**
  * This method will select a random word or phrase from the choices provided and then say it to the user
  * @param choices - an array of phrases or words
+ * @param shouldEscape true if the raw text should be escaped, false otherwise (default=true)
  * @returns {Speech}
  */
-Speech.prototype.sayRandomChoice = function (choices) {
+Speech.prototype.sayRandomChoice = function (choices, shouldEscape=true) {
     var choice = this._helper.chooseRandomWord(choices);
-    this._elements.push(this._escape(choice));
+    this._elements.push((shouldEscape ? this._escape(choice) : choice));
     return this;
 };
 
